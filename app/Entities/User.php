@@ -27,17 +27,48 @@ class User extends Entity {
   /**
    * @ORM\Column(type="string")
    */
-  protected string $email;
-
-  /**
-   * @ORM\Column(type="string")
-   */
   protected string $name;
 
   /**
    * @ORM\Column(type="string")
    */
+  protected string $email;
+
+  /**
+   * @ORM\Column(type="string")
+   */
   protected string $username;
+
+  /**
+   * @var Role[]
+   * @ORM\ManyToMany(targetEntity="Role")
+   * @ORM\JoinTable(
+   *     name="user_roles",
+   *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+   *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+   * )
+   */
+  protected array $roles;
+
+  /**
+   * @ORM\Column(type="string", name="password_hash")
+   */
+  protected string $password_hash;
+
+  /**
+   * @ORM\Column(type="string", nullable=true)
+   */
+  protected ?string $avatar;
+
+  /**
+   * @ORM\Column(type="boolean")
+   */
+  protected bool $status = true;
+
+  /**
+   * @ORM\Column(type="boolean")
+   */
+  protected bool $verified = false;
 
   /**
    * @ORM\Column(type="string", name="github_username", nullable=true)
