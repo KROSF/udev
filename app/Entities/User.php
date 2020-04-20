@@ -85,5 +85,10 @@ class User extends Entity {
    */
   protected ?string $stackoverflowUrl;
 
+  /**
+   * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+   */
+  protected array $posts;
+
   use Timestamp;
 }
