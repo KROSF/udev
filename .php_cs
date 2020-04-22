@@ -35,6 +35,7 @@ return PhpCsFixer\Config::create()
         'explicit_indirect_variable' => true,
         'explicit_string_variable' => true,
         'no_trailing_whitespace_in_comment' => true,
+        'class_keyword_remove' => false,
     ])
     ->setFinder(PhpCsFixer\Finder::create()
         ->exclude('vendor')
