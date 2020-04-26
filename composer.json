@@ -7,7 +7,6 @@
   "require": {
     "php": ">=7.2",
     "codeigniter4/framework": "^4",
-    "doctrine/orm": "^2.7.2",
     "spatie/enum": "^2.3"
   },
   "require-dev": {

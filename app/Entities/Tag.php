@@ -2,24 +2,11 @@
 
 namespace App\Entities;
 
-use Doctrine\ORM\Mapping as ORM;
+use CodeIgniter\Entity;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="tags")
+ * @property int $id
+ * @property string $name
  */
-class Tag {
-  /**
-   * @ORM\Id
-   * @ORM\Column(type="integer")
-   * @ORM\GeneratedValue
-   */
-  protected int $id;
-
-  /**
-   * @ORM\Column(type="string")
-   */
-  protected string $name;
-
-  use Timestamp;
+class Tag extends Entity {
 }

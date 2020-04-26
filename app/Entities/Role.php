@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use Doctrine\ORM\Mapping as ORM;
+use CodeIgniter\Entity;
 
 use Spatie\Enum\Enum;
 
@@ -16,26 +16,9 @@ class RoleCode extends Enum {
 }
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="roles")
+ * @property int $id
+ * @property RoleCode $code
+ * @property bool $status
  */
-class Role {
-  /**
-   * @ORM\Id
-   * @ORM\Column(type="integer")
-   * @ORM\GeneratedValue
-   */
-  protected int $id;
-
-  /**
-   * @ORM\Column(type="string")
-   */
-  protected RoleCode $code;
-
-  /**
-   * @ORM\Column(type="boolean")
-   */
-  protected bool $status;
-
-  use Timestamp;
+class Role extends Entity {
 }

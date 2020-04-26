@@ -26,9 +26,8 @@
   "extensions": [
     "junstyle.php-cs-fixer",
     "felixfbecker.php-debug",
-    "mblode.twig-language-2",
-    "zignd.html-css-class-completion",
-    "bmewburn.vscode-intelephense-client"
+    "bmewburn.vscode-intelephense-client",
+    "editorconfig.editorconfig"
   ],
   "remoteEnv": {
     "PATH": "${containerEnv:PATH}:/workspace/vendor/bin"
