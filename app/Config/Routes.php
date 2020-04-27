@@ -31,9 +31,14 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->resource('user',[
+$routes->resource('users',[
   'only' => ['index', 'show','create', 'update', 'delete'],
   'controller' => 'UserController'
+]);
+
+$routes->resource('posts',[
+  'only' => ['index', 'show','create', 'update', 'delete'],
+  'controller' => 'PostController'
 ]);
 
 /**

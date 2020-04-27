@@ -22,7 +22,17 @@ use CodeIgniter\I18n\Time;
  */
 class User extends Entity {
   public function setPassword(string $password) {
-    $this->attributes['password'] = password_hash($password, PASSWORD_BCRYPT, ['cost' => 11]);
+    $this->attributes['password'] = password_hash(
+      base64_encode(
+          hash('sha384', $password, true)
+      ),
+      PASSWORD_ARGON2I,
+      [
+        'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+        'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+        'threads' => PASSWORD_ARGON2_DEFAULT_THREADS
+      ]
+    );
 
     return $this;
   }

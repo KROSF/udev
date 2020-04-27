@@ -11,18 +11,18 @@ use DateTime;
  * @property string $title
  * @property string $description
  * @property ?string $text
- * @property string $draftText
+ * @property string $draft_text
  * @property User $author
  * @property string $url
  * @property int $likes
  * @property int $score
- * @property bool $isSubmitted
- * @property bool $isDraft
- * @property bool $isPublished
- * @property ?DateTime $publishedAt
+ * @property bool $is_submitted
+ * @property bool $is_draft
+ * @property bool $is_published
+ * @property ?DateTime $published_at
  * @property bool $status
- * @property ?User $createdBy
- * @property ?User $updatedBy
+ * @property ?User $created_by
+ * @property ?User $updated_by
  */
 class Post extends Entity {
 }
