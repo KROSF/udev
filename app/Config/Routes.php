@@ -41,6 +41,16 @@ $routes->resource('posts',[
   'controller' => 'PostController'
 ]);
 
+$routes->resource('roles',[
+  'only' => ['index', 'show','create', 'update', 'delete'],
+  'controller' => 'RoleController'
+]);
+
+$routes->resource('tags',[
+  'only' => ['index', 'show','create', 'update', 'delete'],
+  'controller' => 'TagController'
+]);
+
 /**
  * --------------------------------------------------------------------
  * Additional Routing

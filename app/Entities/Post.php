@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use CodeIgniter\Entity;
 use DateTime;
 
 
@@ -24,5 +23,11 @@ use DateTime;
  * @property ?User $created_by
  * @property ?User $updated_by
  */
-class Post extends Entity {
+class Post extends SerializableEntity {
+  protected $casts = [
+    'is_submitted' => 'boolean',
+    'is_draft' => 'boolean',
+    'is_published' => 'boolean',
+    'status' => 'boolean',
+  ];
 }

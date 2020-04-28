@@ -2,36 +2,36 @@
 
 namespace App\Controllers;
 
-use App\Entities\Post;
-use App\Models\PostModel;
+use App\Entities\Tag;
+use App\Models\TagModel;
 use CodeIgniter\RESTful\ResourceController;
 
 /**
- * @property PostModel $model
+ * @property TagModel $model
  */
 class PostController extends ResourceController {
-  protected $modelName = PostModel::class;
+  protected $modelName = TagModel::class;
 
   protected $format = 'json';
 
   public function index() {
-    $posts = $this->model->paginate();
+    $tags = $this->model->paginate();
 
-    return $this->respond($posts);
+    return $this->respond($tags);
   }
 
   public function show($id = null) {
-    $post = $this->model->find($id);
-    if (is_null($post)) {
+    $tag = $this->model->find($id);
+    if (is_null($tag)) {
       return $this->failNotFound();
     }
 
-    return $this->respond($post);
+    return $this->respond($tag);
   }
 
   public function create() {
     $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new Post($data));
+    $id = $this->model->insert(new Tag($data));
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -46,7 +46,7 @@ class PostController extends ResourceController {
       return $this->failServerError();
     }
 
-    return $this->respondCreated(['post' => $id]);
+    return $this->respondCreated(['tag' => $id]);
   }
 
   public function update($id = null) {

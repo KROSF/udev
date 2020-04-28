@@ -2,36 +2,36 @@
 
 namespace App\Controllers;
 
-use App\Entities\Post;
-use App\Models\PostModel;
+use App\Entities\Role;
+use App\Models\RoleModel;
 use CodeIgniter\RESTful\ResourceController;
 
 /**
- * @property PostModel $model
+ * @property RoleModel $model
  */
 class PostController extends ResourceController {
-  protected $modelName = PostModel::class;
+  protected $modelName = RoleModel::class;
 
   protected $format = 'json';
 
   public function index() {
-    $posts = $this->model->paginate();
+    $roles = $this->model->paginate();
 
-    return $this->respond($posts);
+    return $this->respond($roles);
   }
 
   public function show($id = null) {
-    $post = $this->model->find($id);
-    if (is_null($post)) {
+    $role = $this->model->find($id);
+    if (is_null($role)) {
       return $this->failNotFound();
     }
 
-    return $this->respond($post);
+    return $this->respond($role);
   }
 
   public function create() {
     $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new Post($data));
+    $id = $this->model->insert(new Role($data));
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -46,7 +46,7 @@ class PostController extends ResourceController {
       return $this->failServerError();
     }
 
-    return $this->respondCreated(['post' => $id]);
+    return $this->respondCreated(['role' => $id]);
   }
 
   public function update($id = null) {

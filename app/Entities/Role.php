@@ -2,8 +2,6 @@
 
 namespace App\Entities;
 
-use CodeIgniter\Entity;
-
 use Spatie\Enum\Enum;
 
 /**
@@ -20,5 +18,5 @@ class RoleCode extends Enum {
  * @property RoleCode $code
  * @property bool $status
  */
-class Role extends Entity {
+class Role extends SerializableEntity {
 }
