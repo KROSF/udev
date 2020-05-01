@@ -13,9 +13,9 @@ class UserModel extends Model {
   protected $returnType = User::class;
 
   protected $useTimestamps = true;
-  
+
   protected $allowedFields = [
-    'name', 
+    'name',
     'email',
     'username',
     'password',
@@ -42,5 +42,9 @@ class UserModel extends Model {
     $this->validationRules = $rules;
 
     return $this;
+  }
+
+  public function findByEmail(string $email) {
+    return $this->builder($this->table)->where('email',$email)->get(1)->getFirstRow($this->returnType);
   }
 }
