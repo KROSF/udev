@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use CodeIgniter\Router\RouteCollection;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes(true);
 
@@ -31,10 +33,33 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->resource('user',[
+$routes->resource('users',[
   'only' => ['index', 'show','create', 'update', 'delete'],
   'controller' => 'UserController'
 ]);
+
+$routes->resource('posts',[
+  'only' => ['index', 'show','create', 'update', 'delete'],
+  'controller' => 'PostController'
+]);
+
+$routes->resource('roles',[
+  'only' => ['index', 'show','create', 'update', 'delete'],
+  'controller' => 'RoleController'
+]);
+
+$routes->resource('tags',[
+  'only' => ['index', 'show','create', 'update', 'delete'],
+  'controller' => 'TagController'
+]);
+
+$routes->group('auth',function (RouteCollection $routes) {
+  $routes->post('login','AuthController::login');
+  $routes->post('revoketoken','AuthController::revokeToken');
+  $routes->post('forgot-password','AuthController::forgotPassword');
+  $routes->get('reset-password','AuthController::resetPassword');
+  $routes->get('active','AuthController::activateAccount');
+});
 
 /**
  * --------------------------------------------------------------------

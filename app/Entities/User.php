@@ -2,8 +2,8 @@
 
 namespace App\Entities;
 
-use CodeIgniter\Entity;
 use CodeIgniter\I18n\Time;
+
 
 /**
  * @property int $id
@@ -20,9 +20,26 @@ use CodeIgniter\I18n\Time;
  * @property Time $created_at
  * @property Time $updated_at
  */
-class User extends Entity {
+class User extends SerializableEntity {
+  protected $protected = ['password'];
+
+  protected $casts = [
+    'status' => 'boolean',
+    'verified' => 'boolean'
+  ];
+
   public function setPassword(string $password) {
-    $this->attributes['password'] = password_hash($password, PASSWORD_BCRYPT, ['cost' => 11]);
+    $this->attributes['password'] = password_hash(
+      base64_encode(
+          hash('sha384', $password, true)
+      ),
+      PASSWORD_ARGON2I,
+      [
+        'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+        'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+        'threads' => PASSWORD_ARGON2_DEFAULT_THREADS
+      ]
+    );
 
     return $this;
   }

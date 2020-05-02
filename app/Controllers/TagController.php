@@ -2,36 +2,36 @@
 
 namespace App\Controllers;
 
-use App\Entities\User;
+use App\Entities\Tag;
+use App\Models\TagModel;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\UserModel;
 
 /**
- * @property UserModel $model
+ * @property TagModel $model
  */
-class UserController extends ResourceController {
-  protected $modelName = UserModel::class;
+class PostController extends ResourceController {
+  protected $modelName = TagModel::class;
 
   protected $format = 'json';
 
   public function index() {
-    $users = $this->model->paginate();
+    $tags = $this->model->paginate();
 
-    return $this->respond($users);
+    return $this->respond($tags);
   }
 
   public function show($id = null) {
-    $user = $this->model->find($id);
-    if (is_null($user)) {
+    $tag = $this->model->find($id);
+    if (is_null($tag)) {
       return $this->failNotFound();
     }
 
-    return $this->respond($user);
+    return $this->respond($tag);
   }
 
   public function create() {
     $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new User($data));
+    $id = $this->model->insert(new Tag($data));
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -46,7 +46,7 @@ class UserController extends ResourceController {
       return $this->failServerError();
     }
 
-    return $this->respondCreated(['user' => $id]);
+    return $this->respondCreated(['tag' => $id]);
   }
 
   public function update($id = null) {

@@ -2,36 +2,36 @@
 
 namespace App\Controllers;
 
-use App\Entities\User;
+use App\Entities\Post;
+use App\Models\PostModel;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\UserModel;
 
 /**
- * @property UserModel $model
+ * @property PostModel $model
  */
-class UserController extends ResourceController {
-  protected $modelName = UserModel::class;
+class PostController extends ResourceController {
+  protected $modelName = PostModel::class;
 
   protected $format = 'json';
 
   public function index() {
-    $users = $this->model->paginate();
+    $posts = $this->model->paginate();
 
-    return $this->respond($users);
+    return $this->respond($posts);
   }
 
   public function show($id = null) {
-    $user = $this->model->find($id);
-    if (is_null($user)) {
+    $post = $this->model->find($id);
+    if (is_null($post)) {
       return $this->failNotFound();
     }
 
-    return $this->respond($user);
+    return $this->respond($post);
   }
 
   public function create() {
     $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new User($data));
+    $id = $this->model->insert(new Post($data));
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -46,7 +46,7 @@ class UserController extends ResourceController {
       return $this->failServerError();
     }
 
-    return $this->respondCreated(['user' => $id]);
+    return $this->respondCreated(['post' => $id]);
   }
 
   public function update($id = null) {

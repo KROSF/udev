@@ -2,36 +2,36 @@
 
 namespace App\Controllers;
 
-use App\Entities\User;
+use App\Entities\Role;
+use App\Models\RoleModel;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\UserModel;
 
 /**
- * @property UserModel $model
+ * @property RoleModel $model
  */
-class UserController extends ResourceController {
-  protected $modelName = UserModel::class;
+class PostController extends ResourceController {
+  protected $modelName = RoleModel::class;
 
   protected $format = 'json';
 
   public function index() {
-    $users = $this->model->paginate();
+    $roles = $this->model->paginate();
 
-    return $this->respond($users);
+    return $this->respond($roles);
   }
 
   public function show($id = null) {
-    $user = $this->model->find($id);
-    if (is_null($user)) {
+    $role = $this->model->find($id);
+    if (is_null($role)) {
       return $this->failNotFound();
     }
 
-    return $this->respond($user);
+    return $this->respond($role);
   }
 
   public function create() {
     $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new User($data));
+    $id = $this->model->insert(new Role($data));
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -46,7 +46,7 @@ class UserController extends ResourceController {
       return $this->failServerError();
     }
 
-    return $this->respondCreated(['user' => $id]);
+    return $this->respondCreated(['role' => $id]);
   }
 
   public function update($id = null) {
