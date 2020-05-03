@@ -38,7 +38,6 @@ class AuthController extends Controller {
      * @var Credentials $credentials
      */
     $credentials = $this->request->getJSON();
-    /** @var User $user */
     $user = $this->userModel->findByEmail($credentials->email);
 
     if (!$user->verified) {
@@ -82,15 +81,14 @@ class AuthController extends Controller {
       return $this->failNotFound("Your code seems to be invalid");
     }
 
-    /** @var User $user */
     $user = $this->userModel->findByEmail($email);
     if (!$user->verified) {
       $user->verified = true;
       $this->userModel->save($user);
       cache()->delete($code);
-
-      return $this->respond(["message" => "Account verified sucessfully"]);
     }
+
+    return $this->respond(["message" => "Account verified sucessfully"]);
   }
 
   public function resendActivateAccount() {

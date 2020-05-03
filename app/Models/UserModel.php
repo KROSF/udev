@@ -4,6 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 use App\Entities\User;
+use CodeIgniter\Exceptions\ModelException;
+use InvalidArgumentException;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class UserModel extends Model {
   protected $DBGroup = 'default';
@@ -44,6 +47,14 @@ class UserModel extends Model {
     return $this;
   }
 
+  /**
+   *
+   * @param string $email
+   * @return User
+   * @throws ModelException
+   * @throws InvalidArgumentException
+   * @throws DatabaseException
+   */
   public function findByEmail(string $email) {
     return $this->builder($this->table)->where('email',$email)->get(1)->getFirstRow($this->returnType);
   }
