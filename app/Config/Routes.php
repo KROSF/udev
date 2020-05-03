@@ -55,6 +55,7 @@ $routes->resource('tags',[
 
 $routes->group('auth',function (RouteCollection $routes) {
   $routes->post('login','AuthController::login');
+  $routes->post('register','UserController::create');
   $routes->post('revoketoken','AuthController::revokeToken');
   $routes->post('forgot-password','AuthController::forgotPassword');
   $routes->get('reset-password','AuthController::resetPassword');

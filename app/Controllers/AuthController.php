@@ -56,9 +56,6 @@ class AuthController extends Controller {
   public function revokeToken() {
   }
 
-  public function register() {
-  }
-
   public function forgotPassword() {
   }
 
