@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Entities\User;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\UserModel;
+use Config\Email;
+use Config\Services;
 
 /**
  * @property UserModel $model
@@ -30,8 +32,8 @@ class UserController extends ResourceController {
   }
 
   public function create() {
-    $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new User($data));
+    $user = new User($this->request->getJSON(true));
+    $inserted = $this->model->insert($user);
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -42,11 +44,14 @@ class UserController extends ResourceController {
       );
     }
 
-    if ($id === false) {
+    if ($inserted === false) {
       return $this->failServerError();
     }
 
-    return $this->respondCreated(['user' => $id]);
+    helper("email");
+    sendVerificationEmail($user->email);
+
+    return $this->respondCreated(['user' => $inserted]);
   }
 
   public function update($id = null) {
