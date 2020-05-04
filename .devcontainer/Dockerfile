@@ -37,6 +37,10 @@ RUN apt-get update \
   && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
   && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
   #
+  # Caching vscode extensions
+  && mkdir -p /home/$USERNAME/.vscode-server/extensions \
+  && chown -R $USERNAME /home/$USERNAME/.vscode-server \
+  #
   # Clean up
   && apt-get autoremove -y \
   && apt-get clean -y \
