@@ -88,9 +88,29 @@ class AuthController extends Controller {
   }
 
   public function forgotPassword() {
+    $data = $this->request->getJSON();
+    $user = $this->userModel->findByEmail($data->email);
+    if ($user && $user->verified) {
+      helper("email");
+      sendForgotPasswordEmail($user->email);
+    }
+
+    return $this->respondNoContent();
   }
 
-  public function resetPassword() {
+  public function resetPassword($token) {
+    $data = $this->request->getJSON();
+
+    $email = cache($token);
+    if (!$email) {
+      return $this->failNotFound(lang("Auth.activateErrorInvalidToken"));
+    }
+
+    $user = $this->userModel->findByEmail($email);
+    $user->password = $data->password;
+    $this->userModel->save($user);
+
+    return $this->respond(lang("Auth.resetPasswordSuccess"));
   }
 
   public function activateAccount($token) {

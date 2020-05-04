@@ -16,3 +16,17 @@ if (! function_exists('sendVerificationEmail')) {
     $email->send();
   }
 }
+
+if (! function_exists('sendForgotPasswordEmail')) {
+  function sendForgotPasswordEmail(string $userEmail) {
+    $token = bin2hex(random_bytes(16));
+    cache()->save($token, $userEmail, MINUTE * 4);
+    $email = Services::email();
+    $email->setTo($userEmail);
+    $email->setSubject("Reset Password");
+    $email->setMessage(lang("Email.forgotPassword",[
+      'reset_url' => base_url(['auth', 'reset-password', $token])
+    ]));
+    $email->send();
+  }
+}
