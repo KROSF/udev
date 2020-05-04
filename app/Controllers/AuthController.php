@@ -70,25 +70,20 @@ class AuthController extends Controller {
   public function forgotPassword() {
   }
 
-  public function activateAccount() {
-    $code = $this->request->getGet("code");
-    if (!$code) {
-      return $this->failValidationError("code param is required");
-    }
-
-    $email = cache($code);
+  public function activateAccount($token) {
+    $email = cache($token);
     if (!$email) {
-      return $this->failNotFound("Your code seems to be invalid");
+      return $this->failNotFound(lang("Auth.activateErrorInvalidToken"));
     }
 
     $user = $this->userModel->findByEmail($email);
     if (!$user->verified) {
       $user->verified = true;
       $this->userModel->save($user);
-      cache()->delete($code);
+      cache()->delete($token);
     }
 
-    return $this->respond(["message" => "Account verified sucessfully"]);
+    return $this->respond(lang("Auth.activateSuccess"));
   }
 
   public function resendActivateAccount() {
