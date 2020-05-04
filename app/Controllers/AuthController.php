@@ -142,18 +142,20 @@ class AuthController extends Controller {
 
   private function generateTokens($id) {
     $tokens = new stdClass();
+    $iat = time();
+    $iss = base_url();
     $tokens->access = JWT::encode([
       'id' => $id,
-      'iat' => time(),
-      'exp' => time() + MINUTE * 15,
-      'iss' => base_url(),
+      'iat' => $iat,
+      'exp' => $iat + MINUTE * 15,
+      'iss' => $iss,
     ], $this->authConfig->jwtKey, $this->authConfig->jwtAlgorithm);
 
     $tokens->refresh = JWT::encode([
       'id' => $id,
-      'iat' => time(),
-      'exp' => time() + MONTH,
-      'iss' => base_url(),
+      'iat' => $iat,
+      'exp' => $iat + MONTH,
+      'iss' => $iss,
     ],$this->authConfig->jwtRefreshKey, $this->authConfig->jwtAlgorithm);
 
     return $tokens;
