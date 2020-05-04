@@ -18,6 +18,7 @@ class JWTFilter implements FilterInterface {
   protected $response;
 
   protected $request;
+
   /**
    *
    * @param IncomingRequest $request
@@ -27,14 +28,17 @@ class JWTFilter implements FilterInterface {
     $this->request = $request;
     $this->response = Services::response();
     if ($request->hasHeader('Authorization')) {
-      /** @var Auth $authConfig */
       $authConfig = new Auth();
       $userModel = new UserModel();
       $authorization = $request->getHeader('Authorization');
 
       try {
-        $userID = JWT::decode($authorization->getValueLine(), $authConfig->jwtKey, [$authConfig->jwtAlgorithm]);
-        $user = $userModel->find($userID);
+        $payload = JWT::decode($authorization->getValueLine(), $authConfig->jwtKey, [$authConfig->jwtAlgorithm]);
+
+        $user = $userModel->find($payload->id);
+        if (is_null($user)) {
+          throw new \Exception();
+        }
         $request->user = $user;
 
         return $request;

@@ -25,7 +25,8 @@ class UserModel extends Model {
     'avatar',
     'github_username',
     'twitter_username',
-    'stackoverflow_url'
+    'stackoverflow_url',
+    'verified',
   ];
 
   protected $validationRules = [

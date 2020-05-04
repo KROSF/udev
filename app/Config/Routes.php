@@ -54,12 +54,13 @@ $routes->resource('tags',[
 ]);
 
 $routes->group('auth',function (RouteCollection $routes) {
+  $routes->get('refresh-token','AuthController::refreshToken');
+  $routes->get('active/(:hash)','AuthController::activateAccount/$1');
   $routes->post('login','AuthController::login');
   $routes->post('register','UserController::create');
-  $routes->post('revoketoken','AuthController::revokeToken');
   $routes->post('forgot-password','AuthController::forgotPassword');
-  $routes->get('reset-password','AuthController::resetPassword');
-  $routes->get('active/(:hash)','AuthController::activateAccount/$1');
+  $routes->put('reset-password','AuthController::resetPassword');
+  $routes->put('resend-active-account','AuthController::resendActivateAccount');
 });
 
 /**

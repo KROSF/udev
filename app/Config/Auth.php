@@ -17,4 +17,10 @@ class Auth extends BaseConfig {
    * @var null|string
    */
   public $jwtKey;
+
+  /**
+   *
+   * @var null|string
+   */
+  public $jwtRefreshKey;
 }
