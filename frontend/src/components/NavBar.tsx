@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Link, Text } from '@chakra-ui/core'
+import { Box, Flex, Icon, Image, Input, Link, Text } from '@chakra-ui/core'
 import React from 'react'
 
 const NavLink: React.FC = ({ children, ...props }) => (
@@ -23,7 +23,14 @@ const NavBar = () => (
       <Text pl={3} color="white">
         Company
       </Text>
+      <Input
+        placeholder="Search..."
+        bg="devSearchBox"
+        color="white"
+        marginLeft={5}
+      />
     </Flex>
+    <Icon name="connect" color="white" size="24px" />
     <Box>
       <NavLink>Home</NavLink>
       <NavLink>About</NavLink>
