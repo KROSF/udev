@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps } from '@chakra-ui/core'
+import { Avatar, AvatarProps, PseudoBox } from '@chakra-ui/core'
 import md5 from 'blueimp-md5'
 import React from 'react'
 
@@ -37,7 +37,20 @@ const Gravatar: React.FC<GravatarProps> = ({
     d: fallback,
     rating,
   })}`
-  return <Avatar src={uri} {...rest} />
+  return (
+    <PseudoBox _hover={{ bg: 'gray.300' }} rounded="full">
+      <Avatar
+        src={uri}
+        cursor="pointer"
+        rounded="full"
+        width="2.5rem"
+        height="2.5rem"
+        padding="0.175rem"
+        bg="transparent"
+        {...rest}
+      />
+    </PseudoBox>
+  )
 }
 
 export default Gravatar
