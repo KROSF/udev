@@ -1,5 +1,6 @@
 import { Button, Flex, Icon, IconButton, Input } from '@chakra-ui/core'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Gravatar from './Gravatar'
 
 const ConnectIcon = () => <Icon name="connect" size="24px" />
@@ -17,31 +18,35 @@ const NavBar: React.FC<{ onAvatarClick: () => void }> = ({ onAvatarClick }) => {
     >
       <Flex flexDirection="row" justifyContent="center" alignItems="center">
         <Flex alignItems="center">
-          <Icon name="dev" width="88px" height="20px" />
-
+          <Link to="/">
+            <Icon name="dev" width="88px" height="20px" color="black" />
+          </Link>
           <Input placeholder="Search..." marginLeft={5} width="400px" />
         </Flex>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center">
-        <Button marginRight={5} variantColor="teal">
-          Write a Post
-        </Button>
+        <Link to="/new">
+          <Button marginRight={5} variantColor="teal">
+            Write a Post
+          </Button>
+        </Link>
         <IconButton
           icon={ConnectIcon}
           aria-label="connect icon"
           variant="ghost"
+          rounded="full"
           marginRight={5}
         />
         <IconButton
           icon={NotificationIcon}
           aria-label="notification icon"
           variant="ghost"
+          rounded="full"
           marginRight={5}
         />
         <Gravatar
           email="rodrigosanabria22@gmail.com"
           size="sm"
-          marginRight={5}
           onClick={onAvatarClick}
         />
       </Flex>
