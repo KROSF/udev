@@ -6,6 +6,7 @@
     "@chakra-ui/core": "^0.7.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "blueimp-md5": "^2.15.0",
     "emotion-theming": "^10.0.27",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -13,6 +14,7 @@
     "yup": "^0.28.5"
   },
   "devDependencies": {
+    "@types/blueimp-md5": "^2.7.0",
     "@types/node": "^13.13.4",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",

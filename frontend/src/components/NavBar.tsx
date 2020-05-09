@@ -1,10 +1,14 @@
-import { Avatar, Button, Flex, Icon, Input } from '@chakra-ui/core'
+import { Button, Flex, Icon, IconButton, Input } from '@chakra-ui/core'
 import React from 'react'
+import Gravatar from './Gravatar'
+
+const ConnectIcon = () => <Icon name="connect" size="24px" />
+
+const NotificationIcon = () => <Icon name="notification" size="24px" />
 
 const NavBar: React.FC<{ onAvatarClick: () => void }> = ({ onAvatarClick }) => {
   return (
     <Flex
-      bg="dev"
       w="100%"
       px={5}
       py={4}
@@ -13,36 +17,29 @@ const NavBar: React.FC<{ onAvatarClick: () => void }> = ({ onAvatarClick }) => {
     >
       <Flex flexDirection="row" justifyContent="center" alignItems="center">
         <Flex alignItems="center">
-          <Icon
-            name="dev"
-            bg="black"
-            color="white"
-            width="88px"
-            height="20px"
-          />
+          <Icon name="dev" width="88px" height="20px" />
 
-          <Input
-            placeholder="Search..."
-            bg="devSearchBox"
-            color="white"
-            marginLeft={5}
-            width="400px"
-          />
+          <Input placeholder="Search..." marginLeft={5} width="400px" />
         </Flex>
       </Flex>
       <Flex justifyContent="space-between" alignItems="center">
-        <Button
-          bg="tealPri"
-          color="black"
-          _hover={{ bg: 'devteal' }}
-          marginRight={5}
-        >
+        <Button marginRight={5} variantColor="teal">
           Write a Post
         </Button>
-        <Icon name="connect" color="white" size="24px" marginRight={5} />
-        <Icon name="notification" color="white" size="24px" marginRight={5} />
-        <Avatar
-          src="https://bit.ly/broken-link"
+        <IconButton
+          icon={ConnectIcon}
+          aria-label="connect icon"
+          variant="ghost"
+          marginRight={5}
+        />
+        <IconButton
+          icon={NotificationIcon}
+          aria-label="notification icon"
+          variant="ghost"
+          marginRight={5}
+        />
+        <Gravatar
+          email="rodrigosanabria22@gmail.com"
           size="sm"
           marginRight={5}
           onClick={onAvatarClick}

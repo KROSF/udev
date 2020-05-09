@@ -9,6 +9,7 @@ const devTheme = {
     devSearchBox: '#2E3A48',
     tealPri: '#26d9ca',
     devteal: '#1CB3A6',
+    devhover: '#0d1219',
     dev2: {
       gray: '#1a2634',
       body: '#0d1219',

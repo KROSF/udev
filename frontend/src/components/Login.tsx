@@ -66,7 +66,7 @@ const Login: React.FC<Omit<UseDisclosureReturn, 'onOpen'>> = ({
               isLoading={formState.isSubmitting}
               type="submit"
             >
-              Submit
+              Sign In
             </Button>
           </form>
         </ModalBody>
