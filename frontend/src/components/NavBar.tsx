@@ -15,6 +15,8 @@ const NavBar: React.FC<{ onAvatarClick: () => void }> = ({ onAvatarClick }) => {
       py={4}
       justifyContent="space-between"
       alignItems="center"
+      borderBottomWidth="1px"
+      marginBottom="1.5rem"
     >
       <Flex flexDirection="row" justifyContent="center" alignItems="center">
         <Flex alignItems="center">

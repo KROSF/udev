@@ -38,7 +38,7 @@ const Login: React.FC<Omit<UseDisclosureReturn, 'onOpen'>> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent rounded="lg">
         <ModalHeader />
         <ModalCloseButton />
         <ModalBody>
