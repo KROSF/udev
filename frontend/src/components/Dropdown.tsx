@@ -15,39 +15,54 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
   iconLeft,
   iconRight,
   onClick,
-}) => (
-  <Flex
-    css={css`
-      &:hover {
-        background: ${theme.colors.gray[100]};
-      }
-    `}
-    as="a"
-    height="50px"
-    alignItems="center"
-    padding="0.5rem"
-    rounded="lg"
-    bg="white"
-    borderWidth="1px"
-    marginTop={2}
-    transition="background 500ms"
-    cursor="pointer"
-    onClick={onClick}
-  >
-    <Box as="span" marginRight="0.5rem">
-      {iconLeft}
-    </Box>
-    {children}
-    <Box as="span" marginLeft="auto">
-      {iconRight}
-    </Box>
-  </Flex>
-)
+}) => {
+  const { colorMode } = useColorMode()
+  return (
+    <Flex
+      css={css`
+        &:hover {
+          background: ${colorMode === 'light'
+            ? theme.colors.gray[100]
+            : theme.colors.whiteAlpha[100]};
+        }
+      `}
+      as="a"
+      height="50px"
+      alignItems="center"
+      padding="0.5rem"
+      rounded="lg"
+      borderWidth="1px"
+      marginTop={2}
+      transition="background 500ms"
+      cursor="pointer"
+      onClick={onClick}
+    >
+      <Box as="span" marginRight="0.5rem">
+        {iconLeft}
+      </Box>
+      {children}
+      <Box as="span" marginLeft="auto">
+        {iconRight}
+      </Box>
+    </Flex>
+  )
+}
 
 const Dropdown: React.FC<{ showModal: () => void }> = ({ showModal }) => {
   const dropdownRef = useRef(null)
   const [height, setHeight] = useState<number | null>(null)
   const { colorMode, toggleColorMode } = useColorMode()
+
+  const colorModeStyles = {
+    light: {
+      bg: 'white',
+      shadow: '0 7px 14px 0 rgba(0,0,0, 0.1), 0 3px 6px 0 rgba(0, 0, 0, .07)',
+    },
+    dark: {
+      bg: 'gray.700',
+      shadow: `rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.4) 0px 15px 40px`,
+    },
+  }
 
   const onEnter = useCallback((node: HTMLElement) => {
     const height = node.offsetHeight
@@ -66,9 +81,9 @@ const Dropdown: React.FC<{ showModal: () => void }> = ({ showModal }) => {
       paddingTop="0"
       overflow="hidden"
       transition="height 500ms ease"
-      background="white"
       rounded="lg"
       height={height}
+      {...colorModeStyles[colorMode]}
     >
       <CSSTransition in unmountOnExit timeout={500} onEnter={onEnter}>
         <Box width="100%">
