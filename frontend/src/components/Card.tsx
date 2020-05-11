@@ -45,7 +45,7 @@ const Card: React.FC<CardProps> = ({
           <Flex flexDirection="column">
             <Flex>
               {tags.map((tag) => (
-                <Link as="a" marginRight={1}>
+                <Link as="a" marginRight={1} key={tag}>
                   #{tag}
                 </Link>
               ))}

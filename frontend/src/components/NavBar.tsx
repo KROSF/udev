@@ -1,13 +1,15 @@
 import { Button, Flex, Icon, IconButton, Input } from '@chakra-ui/core'
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Dropdown from './Dropdown'
 import Gravatar from './Gravatar'
 
 const ConnectIcon = () => <Icon name="connect" size="24px" />
 
 const NotificationIcon = () => <Icon name="notification" size="24px" />
 
-const NavBar: React.FC<{ onAvatarClick: () => void }> = ({ onAvatarClick }) => {
+const NavBar: React.FC<{ showModal: () => void }> = ({ showModal }) => {
+  const [open, setOpen] = useState(false)
   return (
     <Flex
       w="100%"
@@ -46,11 +48,14 @@ const NavBar: React.FC<{ onAvatarClick: () => void }> = ({ onAvatarClick }) => {
           rounded="full"
           marginRight={5}
         />
-        <Gravatar
-          email="rodrigosanabria22@gmail.com"
-          size="sm"
-          onClick={onAvatarClick}
-        />
+        <Flex>
+          <Gravatar
+            email="rodrigosanabria22@gmail.com"
+            size="sm"
+            onClick={() => setOpen(!open)}
+          />
+          {open && <Dropdown showModal={showModal} />}
+        </Flex>
       </Flex>
     </Flex>
   )

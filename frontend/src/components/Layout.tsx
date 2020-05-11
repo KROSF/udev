@@ -11,7 +11,7 @@ const Layout = () => {
   return (
     <Flex flexDirection="column" flex={1}>
       <Router>
-        <NavBar onAvatarClick={onOpen} />
+        <NavBar showModal={onOpen} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new" element={<NewPost />} />
