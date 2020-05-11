@@ -49,9 +49,18 @@ const NewPost: React.FC<NewPostProps> = () => {
         flexShrink={0}
         borderTopWidth="1px"
       >
-        <Button marginRight={5}>PREVIEW</Button>
-        <Button marginRight={5}>SAVE DRAFT</Button>
-        <Button variantColor="teal" variant="solid" rightIcon="arrow-forward">
+        <Button marginRight={5} rounded="full">
+          PREVIEW
+        </Button>
+        <Button marginRight={5} rounded="full">
+          SAVE DRAFT
+        </Button>
+        <Button
+          variantColor="teal"
+          variant="solid"
+          rightIcon="arrow-forward"
+          rounded="full"
+        >
           PUBLISH
         </Button>
       </Flex>

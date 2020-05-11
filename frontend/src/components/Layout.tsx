@@ -1,6 +1,7 @@
 import { Flex, useDisclosure } from '@chakra-ui/core'
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Home from './Home'
 import Login from './Login'
 import NavBar from './NavBar'
 import NewPost from './NewPost'
@@ -12,6 +13,7 @@ const Layout = () => {
       <Router>
         <NavBar onAvatarClick={onOpen} />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/new" element={<NewPost />} />
         </Routes>
       </Router>
