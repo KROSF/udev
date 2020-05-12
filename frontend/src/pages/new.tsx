@@ -1,9 +1,7 @@
 import { Button, Flex, IconButton, Input, Textarea } from '@chakra-ui/core'
 import React from 'react'
 
-export interface NewPostProps {}
-
-const NewPost: React.FC<NewPostProps> = () => {
+const NewPost = () => {
   return (
     <Flex as="form" flexDirection="column" flexGrow={100}>
       <Flex

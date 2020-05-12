@@ -8,11 +8,10 @@
     "@emotion/styled": "^10.0.27",
     "blueimp-md5": "^2.15.0",
     "emotion-theming": "^10.0.27",
+    "next": "^9.4.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.6.3",
-    "react-router": "^6.0.0-alpha.4",
-    "react-router-dom": "^6.0.0-alpha.4",
     "react-transition-group": "^4.4.1",
     "yup": "^0.28.5"
   },
@@ -37,14 +36,12 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
-    "react-scripts": "3.4.1",
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "eslintConfig": {
     "extends": "react-app"

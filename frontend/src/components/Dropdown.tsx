@@ -3,6 +3,8 @@ import { Box, Flex, Icon, theme, useColorMode } from '@chakra-ui/core'
 import { css, jsx } from '@emotion/core'
 import React, { useCallback, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
+import { useAuth } from '../services/auth'
+import { useOutsideClick } from '../hooks'
 
 interface DropdownItemProps {
   iconLeft?: React.ReactNode
@@ -48,11 +50,15 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
   )
 }
 
-const Dropdown: React.FC<{ showModal: () => void }> = ({ showModal }) => {
+const Dropdown: React.FC<{
+  showModal: () => void
+  onOutsideClick: () => void
+}> = ({ showModal, onOutsideClick }) => {
   const dropdownRef = useRef(null)
   const [height, setHeight] = useState<number | null>(null)
   const { colorMode, toggleColorMode } = useColorMode()
-
+  const { isLoggedIn } = useAuth()
+  useOutsideClick(dropdownRef, onOutsideClick)
   const colorModeStyles = {
     light: {
       bg: 'white',
@@ -87,13 +93,14 @@ const Dropdown: React.FC<{ showModal: () => void }> = ({ showModal }) => {
     >
       <CSSTransition in unmountOnExit timeout={500} onEnter={onEnter}>
         <Box width="100%">
-          <DropdownItem>
-            <Flex flexDirection="column">
-              <Flex>Rodrigo Sanabria</Flex>
-              <Flex>@krosf</Flex>
-            </Flex>
-          </DropdownItem>
-          <DropdownItem onClick={showModal}>Log In</DropdownItem>
+          {isLoggedIn && (
+            <DropdownItem>
+              <Flex flexDirection="column">
+                <Flex>Rodrigo Sanabria</Flex>
+                <Flex>@krosf</Flex>
+              </Flex>
+            </DropdownItem>
+          )}
           <DropdownItem
             iconLeft={
               <Icon name={colorMode === 'light' ? 'moon' : 'sun'} focusable />
@@ -102,7 +109,11 @@ const Dropdown: React.FC<{ showModal: () => void }> = ({ showModal }) => {
           >
             Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
           </DropdownItem>
-          <DropdownItem>Sign Out</DropdownItem>
+          {isLoggedIn ? (
+            <DropdownItem>Sign Out</DropdownItem>
+          ) : (
+            <DropdownItem onClick={showModal}>Log In</DropdownItem>
+          )}
         </Box>
       </CSSTransition>
     </Box>
