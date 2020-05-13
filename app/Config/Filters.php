@@ -18,7 +18,7 @@ class Filters extends BaseConfig {
   public $globals = [
     'before' => [
       //'honeypot'
-      'auth' => ['except' => ['auth/*']],
+      'auth' => ['except' => ['api/auth/*']],
     ],
     'after' => [
       // 'toolbar',
