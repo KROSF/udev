@@ -39,13 +39,17 @@ class AuthController extends Controller {
     $credentials = $this->request->getJSON();
     $user = $this->userModel->findByEmail($credentials->email);
 
+    if (is_null($user)) {
+      return $this->failForbidden(lang("Auth.badCredentials"));
+    }
+
     if (!$user->verified) {
       return $this->failForbidden(lang("Auth.mustBeVerified"));
     }
 
-    $is_valid = password_verify(base64_encode(hash('sha384', $credentials->password, true)), $user->password);
+    $hasValidPassword = password_verify(base64_encode(hash('sha384', $credentials->password, true)), $user->password);
 
-    if ($is_valid) {
+    if ($hasValidPassword) {
       $tokens = $this->generateTokens($user->id);
 
       $this->response->setCookie("Refresh-Token", $tokens->refresh, MONTH);
@@ -55,7 +59,7 @@ class AuthController extends Controller {
       ]);
     }
 
-    return $this->failValidationError();
+    return $this->failForbidden(lang("Auth.badCredentials"));
   }
 
   public function refreshToken() {
