@@ -3,8 +3,9 @@ import { Box, Flex, Icon, theme, useColorMode } from '@chakra-ui/core'
 import { css, jsx } from '@emotion/core'
 import React, { useCallback, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { useAuth } from '../services/auth'
 import { useOutsideClick } from '../hooks'
+import { LocalStorageService } from '../services/LocalStorageService'
+import { useRouter } from 'next/router'
 
 interface DropdownItemProps {
   iconLeft?: React.ReactNode
@@ -50,13 +51,13 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
 }
 
 const Dropdown: React.FC<{
-  showModal: () => void
   onOutsideClick: () => void
-}> = ({ showModal, onOutsideClick }) => {
+}> = ({ onOutsideClick }) => {
   const dropdownRef = useRef(null)
   const [height, setHeight] = useState<number | null>(null)
   const { colorMode, toggleColorMode } = useColorMode()
-  const { isLoggedIn } = useAuth()
+  const router = useRouter()
+
   useOutsideClick(dropdownRef, onOutsideClick)
   const colorModeStyles = {
     light: {
@@ -92,7 +93,7 @@ const Dropdown: React.FC<{
     >
       <CSSTransition in unmountOnExit timeout={500} onEnter={onEnter}>
         <Box width="100%">
-          {isLoggedIn && (
+          {LocalStorageService.isUserLoggedIn && (
             <DropdownItem>
               <Flex flexDirection="column">
                 <Flex>Rodrigo Sanabria</Flex>
@@ -108,10 +109,14 @@ const Dropdown: React.FC<{
           >
             Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
           </DropdownItem>
-          {isLoggedIn ? (
-            <DropdownItem>Sign Out</DropdownItem>
+          {LocalStorageService.isUserLoggedIn ? (
+            <DropdownItem onClick={() => router.push('/signout')}>
+              Sign Out
+            </DropdownItem>
           ) : (
-            <DropdownItem onClick={showModal}>Log In</DropdownItem>
+            <DropdownItem onClick={() => router.push('/login')}>
+              Log In
+            </DropdownItem>
           )}
         </Box>
       </CSSTransition>

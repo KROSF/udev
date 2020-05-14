@@ -8,7 +8,6 @@ import React from 'react'
 import theme from '../theme'
 import { AppProps } from 'next/app'
 import NavBar from '../components/NavBar'
-import { AuthProvider } from '../services/auth'
 
 const Layout: React.FC = ({ children }) => (
   <Flex flexDirection="column" flex={1}>
@@ -31,11 +30,9 @@ const App = ({ Component }: AppProps) => {
             min-height: 100vh;
           }
         `}</style>
-        <AuthProvider>
-          <Layout>
-            <Component />
-          </Layout>
-        </AuthProvider>
+        <Layout>
+          <Component />
+        </Layout>
       </ColorModeProvider>
     </ThemeProvider>
   )
