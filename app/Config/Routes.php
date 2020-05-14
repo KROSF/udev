@@ -55,13 +55,14 @@ $routes->group('api', function (RouteCollection $routes) {
   ]);
 
   $routes->group('auth',function (RouteCollection $routes) {
-    $routes->get('refresh-token','AuthController::refreshToken');
-    $routes->get('active/(:hash)','AuthController::activateAccount/$1');
-    $routes->post('login','AuthController::login');
-    $routes->post('register','UserController::create');
-    $routes->post('forgot-password','AuthController::forgotPassword');
-    $routes->put('reset-password/(:hash)','AuthController::resetPassword/$1');
-    $routes->put('resend-active-account','AuthController::resendActivateAccount');
+    $routes->post('refresh-token','AuthController::refreshToken');
+    $routes->get('revoke-token', 'AuthController::revokeToken');
+    $routes->get('active/(:hash)', 'AuthController::activateAccount/$1');
+    $routes->post('login', 'AuthController::login');
+    $routes->post('register', 'UserController::create');
+    $routes->post('forgot-password', 'AuthController::forgotPassword');
+    $routes->put('reset-password/(:hash)', 'AuthController::resetPassword/$1');
+    $routes->put('resend-active-account', 'AuthController::resendActivateAccount');
   });
 });
 

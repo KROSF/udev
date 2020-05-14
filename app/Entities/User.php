@@ -17,6 +17,7 @@ use CodeIgniter\I18n\Time;
  * @property ?string $github_username
  * @property ?string $twitter_username
  * @property ?string $stackoverflow_url
+ * @property int $token_version
  * @property Time $created_at
  * @property Time $updated_at
  */
@@ -24,8 +25,10 @@ class User extends SerializableEntity {
   protected $protected = ['password'];
 
   protected $casts = [
+    'id' => 'int',
     'status' => 'boolean',
-    'verified' => 'boolean'
+    'verified' => 'boolean',
+    'token_version' => 'int',
   ];
 
   public function setPassword(string $password) {

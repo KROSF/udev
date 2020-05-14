@@ -54,6 +54,11 @@ class Users extends Migration {
         'constraint' => 255,
         'null' => true
       ],
+      'token_version' => [
+        'type' => 'INT',
+        'constraint' => 9,
+        'default' => 0,
+      ],
       'created_at' => [
         'type' => 'DATETIME'
       ],
