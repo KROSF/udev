@@ -36,30 +36,34 @@ $routes->setAutoRoute(true);
 $routes->group('api', function (RouteCollection $routes) {
   $routes->resource('users',[
     'only' => ['index', 'show','create', 'update', 'delete'],
-    'controller' => 'UserController'
+    'controller' => 'UserController',
+    'filter' => 'auth:get',
   ]);
 
   $routes->resource('posts',[
     'only' => ['index', 'show','create', 'update', 'delete'],
-    'controller' => 'PostController'
+    'controller' => 'PostController',
+    'filter' => 'auth:get',
   ]);
 
   $routes->resource('roles',[
     'only' => ['index', 'show','create', 'update', 'delete'],
-    'controller' => 'RoleController'
+    'controller' => 'RoleController',
+    'filter' => 'auth:get',
   ]);
 
   $routes->resource('tags',[
     'only' => ['index', 'show','create', 'update', 'delete'],
-    'controller' => 'TagController'
+    'controller' => 'TagController',
+    'filter' => 'auth:get',
   ]);
 
   $routes->group('auth',function (RouteCollection $routes) {
-    $routes->post('refresh-token','AuthController::refreshToken');
-    $routes->get('revoke-token', 'AuthController::revokeToken');
+    $routes->get('revoke-token', 'AuthController::revokeToken', ['filter' => 'auth']);
     $routes->get('active/(:hash)', 'AuthController::activateAccount/$1');
     $routes->post('login', 'AuthController::login');
     $routes->post('register', 'UserController::create');
+    $routes->post('refresh-token','AuthController::refreshToken');
     $routes->post('forgot-password', 'AuthController::forgotPassword');
     $routes->put('reset-password/(:hash)', 'AuthController::resetPassword/$1');
     $routes->put('resend-active-account', 'AuthController::resendActivateAccount');
