@@ -84,7 +84,7 @@ class AuthController extends Controller {
       return  $this->failUnauthorized(lang("Auth.invalidToken"));
     }
 
-    return $this->respond($this->generateTokens($user), false);
+    return $this->respond($this->generateTokens($user));
   }
 
   public function forgotPassword() {
@@ -134,25 +134,26 @@ class AuthController extends Controller {
     $user = $this->userModel->findByEmail($data->email);
     if ($user && !$user->verified) {
       helper("email");
-      sendVerificationEmail($data->email,"Please verified your email");
+      sendVerificationEmail($data->email, "Please verified your email");
     }
 
     return $this->respondNoContent();
   }
 
-  private function generateTokens(User $user, $withAcces = true) {
+  private function generateTokens(User $user) {
     $tokens = new stdClass();
     $iat = time();
     $iss = base_url();
 
-    if ($withAcces) {
-      $tokens->accessToken = JWT::encode([
-        'id' => $user->id,
-        'iat' => $iat,
-        'exp' => $iat + MINUTE * 15,
-        'iss' => $iss,
-      ], $this->authConfig->jwtKey, $this->authConfig->jwtAlgorithm);
-    }
+    $user->token_version += 1;
+    $this->userModel->save($user);
+
+    $tokens->accessToken = JWT::encode([
+      'id' => $user->id,
+      'iat' => $iat,
+      'exp' => $iat + MINUTE * 15,
+      'iss' => $iss,
+    ], $this->authConfig->jwtKey, $this->authConfig->jwtAlgorithm);
 
     $tokens->refreshToken = JWT::encode([
       'id' => $user->id,
@@ -160,7 +161,7 @@ class AuthController extends Controller {
       'exp' => $iat + MONTH,
       'iss' => $iss,
       'version' => $user->token_version,
-    ],$this->authConfig->jwtRefreshKey, $this->authConfig->jwtAlgorithm);
+    ], $this->authConfig->jwtRefreshKey, $this->authConfig->jwtAlgorithm);
 
     return $tokens;
   }
