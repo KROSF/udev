@@ -108,6 +108,7 @@ class AuthController extends Controller {
 
     $user = $this->userModel->findByEmail($email);
     $user->password = $data->password;
+    $user->token_version += 1;
     $this->userModel->save($user);
 
     return $this->respond(lang("Auth.resetPasswordSuccess"));
