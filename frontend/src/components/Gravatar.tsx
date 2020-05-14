@@ -27,7 +27,7 @@ const queryString = (params: Record<string, unknown>) =>
 
 const Gravatar: React.FC<GravatarProps> = ({
   email,
-  imgSize = 90,
+  imgSize = 120,
   rating = 'g',
   fallback = 'retro',
   ...rest

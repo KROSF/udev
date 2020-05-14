@@ -22,6 +22,15 @@ const App = ({ Component }: AppProps) => {
     <ThemeProvider theme={theme}>
       <ColorModeProvider>
         <CSSReset />
+        <style global jsx>{`
+          html,
+          body,
+          body > div:first-child,
+          div#__next,
+          div#__next > div {
+            min-height: 100vh;
+          }
+        `}</style>
         <AuthProvider>
           <Layout>
             <Component />

@@ -1,6 +1,7 @@
 import { Box, Flex, Image, Link } from '@chakra-ui/core'
 import React from 'react'
 import Gravatar from './Gravatar'
+import NextLink from 'next/link'
 
 export interface CardProps {
   image?: {
@@ -45,9 +46,11 @@ const Card: React.FC<CardProps> = ({
           <Flex flexDirection="column">
             <Flex>
               {tags.map((tag) => (
-                <Link as="a" marginRight={1} key={tag}>
-                  #{tag}
-                </Link>
+                <NextLink href={`/tags/${tag}`} key={tag}>
+                  <Link as="a" marginRight={1}>
+                    #{tag}
+                  </Link>
+                </NextLink>
               ))}
             </Flex>
             <Flex>

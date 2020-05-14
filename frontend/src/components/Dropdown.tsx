@@ -28,7 +28,6 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
             : theme.colors.whiteAlpha[100]};
         }
       `}
-      as="a"
       height="50px"
       alignItems="center"
       padding="0.5rem"
