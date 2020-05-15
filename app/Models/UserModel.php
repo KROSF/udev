@@ -26,6 +26,7 @@ class UserModel extends Model {
     'github_username',
     'twitter_username',
     'stackoverflow_url',
+    'token_version',
     'verified',
   ];
 
