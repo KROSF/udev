@@ -12,7 +12,6 @@ import {
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { object, string } from 'yup'
-import Link from 'next/link'
 import { validateEmail } from '../../services/api'
 import ResendEmail from '../../components/ResendEmail'
 

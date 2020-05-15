@@ -75,3 +75,14 @@ export const validateEmail = async ({ code }: Record<'code', string>) => {
 export const resendVerificationCode = async (data: Record<'email', string>) => {
   await api.put('auth/resend-active-account', data)
 }
+
+export const forgotPassword = async (data: Record<'email', string>) => {
+  const res = await api.post('auth/forgot-password', data)
+  return res.data
+}
+
+export const resetPassword = async ({
+  code,
+  password,
+}: Record<'code' | 'password', string>) =>
+  api.put(`auth/reset-password/${code}`, { password })
