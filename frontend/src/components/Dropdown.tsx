@@ -6,6 +6,7 @@ import { CSSTransition } from 'react-transition-group'
 import { useOutsideClick } from '../hooks'
 import { LocalStorageService } from '../services/LocalStorageService'
 import { useRouter } from 'next/router'
+import { logOut } from '../services/api'
 
 interface DropdownItemProps {
   iconLeft?: React.ReactNode
@@ -110,7 +111,12 @@ const Dropdown: React.FC<{
             Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
           </DropdownItem>
           {LocalStorageService.isUserLoggedIn ? (
-            <DropdownItem onClick={() => router.push('/signout')}>
+            <DropdownItem
+              onClick={async () => {
+                await logOut()
+                router.push('/')
+              }}
+            >
               Sign Out
             </DropdownItem>
           ) : (

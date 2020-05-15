@@ -21,14 +21,14 @@ api.interceptors.response.use(
   async (error) => {
     const { config, response } = error as AxiosError
 
-    if (response!.status === 401 && config.url === 'api/auth/refresh-token') {
+    if (response!.status === 401 && config.url === 'auth/refresh-token') {
       Router.push('/login')
       return Promise.reject(error)
     }
 
     if (response!.status === 401 && !(config as any)._retry) {
       ;(config as any)._retry = true
-      const res = await api.post('api/auth/refresh-token', {
+      const res = await api.post('auth/refresh-token', {
         refreshToken: LocalStorageService.refreshToken,
       })
       if (res.status === 201) {
@@ -46,4 +46,32 @@ api.interceptors.response.use(
 export const login = async (data: Record<'email' | 'password', string>) => {
   const res = await api.post('auth/login', data)
   return res.data as Tokens
+}
+
+export const refreshToken = async () => {
+  const { refreshToken, isUserLoggedIn } = LocalStorageService
+  if (refreshToken && !isUserLoggedIn) {
+    const res = await api.post('auth/refresh-token', { refreshToken })
+    LocalStorageService.setTokens(res.data as Tokens)
+  }
+}
+
+export const logOut = async () => {
+  await api.get('auth/revoke-token')
+  LocalStorageService.clearTokens()
+}
+
+export const signUp = async (
+  data: Record<'name' | 'username' | 'email' | 'password', string>,
+) => {
+  await api.post('auth/register', data)
+}
+
+export const validateEmail = async ({ code }: Record<'code', string>) => {
+  const res = await api.get(`auth/active/${code}`)
+  return res.data as { message: string }
+}
+
+export const resendVerificationCode = async (data: Record<'email', string>) => {
+  await api.put('auth/resend-active-account', data)
 }

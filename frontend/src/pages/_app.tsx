@@ -4,10 +4,11 @@ import {
   ThemeProvider,
   Flex,
 } from '@chakra-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import theme from '../theme'
 import { AppProps } from 'next/app'
 import NavBar from '../components/NavBar'
+import { refreshToken } from '../services/api'
 
 const Layout: React.FC = ({ children }) => (
   <Flex flexDirection="column" flex={1}>
@@ -17,6 +18,9 @@ const Layout: React.FC = ({ children }) => (
 )
 
 const App = ({ Component }: AppProps) => {
+  useEffect(() => {
+    refreshToken()
+  }, [])
   return (
     <ThemeProvider theme={theme}>
       <ColorModeProvider>

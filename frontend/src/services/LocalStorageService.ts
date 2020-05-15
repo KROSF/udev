@@ -1,3 +1,5 @@
+import jwtDecode from 'jwt-decode'
+
 export type Tokens = {
   accessToken: string
   refreshToken: string
@@ -23,6 +25,10 @@ export class LocalStorageService {
   }
 
   public static get isUserLoggedIn() {
-    return !!this.accessToken && !!this.refreshToken
+    if (!!this.accessToken && !!this.refreshToken) {
+      const { exp } = jwtDecode<{ exp: number }>(this.accessToken)
+      return Date.now() / 1000 < exp
+    }
+    return false
   }
 }
