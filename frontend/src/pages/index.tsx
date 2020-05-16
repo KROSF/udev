@@ -11,8 +11,7 @@ const Home = () => {
       <Flex flex={1} flexDirection="column">
         <Card
           image={{
-            src:
-              'https://dev-to-uploads.s3.amazonaws.com/i/q19vviykh0oi1s5tkbqe.png',
+            src: '/images/q19vviykh0oi1s5tkbqe.png',
             alt: 'deno',
           }}
           title="Deno is here!"

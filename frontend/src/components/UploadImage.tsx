@@ -2,12 +2,13 @@ import React, { useCallback } from 'react'
 
 import { useDropzone, DropzoneOptions } from 'react-dropzone'
 import { Flex, FlexProps } from '@chakra-ui/core'
+import { sendFiles } from '../services/api'
 
 const UploadImage: React.FC<
   FlexProps & { dropZoneOptions?: Omit<DropzoneOptions, 'onDrop'> }
 > = ({ children: _, dropZoneOptions = {}, ...props }) => {
-  const onDrop = useCallback((files: File[]) => {
-    console.log(files)
+  const onDrop = useCallback(async (files: File[]) => {
+    await sendFiles(files)
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     ...dropZoneOptions,

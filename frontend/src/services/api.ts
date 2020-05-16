@@ -10,7 +10,9 @@ api.interceptors.request.use(
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`
     }
-    config.headers['Content-Type'] = 'application/json'
+    if (!!config.headers['Content-Type']) {
+      config.headers['Content-Type'] = 'application/json'
+    }
     return config
   },
   (error) => Promise.reject(error),
@@ -86,3 +88,21 @@ export const resetPassword = async ({
   password,
 }: Record<'code' | 'password', string>) =>
   api.put(`auth/reset-password/${code}`, { password })
+
+export const newPost = async (
+  data: Record<'title' | 'tags' | 'body', string>,
+) => {
+  const res = await api.post('posts', data)
+  return res.data
+}
+
+export const sendFiles = async (files: File[]) => {
+  const fd = new FormData()
+  files.forEach((file) => {
+    fd.append('files[]', file, file.name)
+  })
+  const res = await api.post('images', fd, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
+}
