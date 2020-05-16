@@ -70,7 +70,7 @@ class AuthController extends Controller {
   public function refreshToken() {
     $data = $this->request->getJSON();
 
-    if ($data && !$data->refreshToken) {
+    if ($data && !property_exists($data, 'refreshToken')) {
       return $this->failNotFound(lang("Auth.refreshTokenNotFound"));
     }
 
