@@ -23,7 +23,7 @@ const ResendEmail = () => {
       {status === 'initial' && (
         <>
           Didn&#39;t receive anything?{' '}
-          <ChakraLink color="teal.500" onClick={onClick}>
+          <ChakraLink color="teal.500" onClick={onClick} as="span">
             Resend email
           </ChakraLink>
           .
