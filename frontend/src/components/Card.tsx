@@ -61,7 +61,7 @@ const Card: React.FC<CardProps> = ({
         <Flex marginTop={3}>
           <Flex as={Link} marginRight={2}>
             <Image
-              src="https://practicaldev-herokuapp-com.freetls.fastly.net/assets/reactions-stack-ee166e138ca182a567f74c986b6f810f670f4d199aca9c550cc7e6f49f34bd33.png"
+              src="/images/reactions-stack.png"
               alt="heart"
               width="24px"
               height="18px"
@@ -72,7 +72,7 @@ const Card: React.FC<CardProps> = ({
           </Flex>
           <Flex as={Link}>
             <Image
-              src="https://practicaldev-herokuapp-com.freetls.fastly.net/assets/comments-bubble-9958d41b969a1620c614347d5ad3f270ab49582c1d9f82b617a6b4156d05dda0.png"
+              src="/images/comments-bubble.png"
               alt="chat"
               width="28px"
               height="19px"
