@@ -1,6 +1,16 @@
 <?php
 
 use Config\Services;
+use Config\App;
+
+if (!function_exists('frontEndBaseURL')) {
+  function frontEndBaseURL($paths = []) {
+    /** @var App */
+    $config = config('app');
+
+    return implode("/", [$config->frontEndUrl, ...$paths]);
+  }
+}
 
 if (! function_exists('sendVerificationEmail')) {
   function sendVerificationEmail(string $userEmail, $subject = "Welcome to Udev") {
@@ -10,8 +20,8 @@ if (! function_exists('sendVerificationEmail')) {
     $email->setTo($userEmail);
     $email->setSubject($subject);
     $email->setMessage(lang("Email.activateAccount",[
-      'base_url' => base_url(),
-      'activate_url' => base_url(['api', 'auth', 'active', $verificationToken])
+      'base_url' => frontEndBaseURL(),
+      'activate_url' => frontEndBaseURL(['validate', "${verificationToken}?email=${userEmail}"])
     ]));
     $email->send();
   }
@@ -25,7 +35,7 @@ if (! function_exists('sendForgotPasswordEmail')) {
     $email->setTo($userEmail);
     $email->setSubject("Reset Password");
     $email->setMessage(lang("Email.forgotPassword",[
-      'reset_url' => base_url(['api', 'auth', 'reset-password', $token])
+      'reset_url' => frontEndBaseURL(['reset-password', $token])
     ]));
     $email->send();
   }

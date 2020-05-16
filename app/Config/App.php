@@ -264,5 +264,11 @@ class App extends BaseConfig
 	|   - http://www.html5rocks.com/en/tutorials/security/content-security-policy/
 	|   - http://www.w3.org/TR/CSP/
 	*/
-	public $CSPEnabled = false;
+  public $CSPEnabled = false;
+
+  /**
+   *
+   * @var string
+   */
+  public $frontEndUrl;
 }
