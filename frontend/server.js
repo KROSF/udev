@@ -37,6 +37,14 @@ app
           changeOrigin: true,
         }),
       )
+      server.use(
+        '/images',
+        createProxyMiddleware({
+          target: 'http://localhost:8888/images/',
+          pathRewrite: { '^/images': '/' },
+          changeOrigin: true,
+        }),
+      )
     }
 
     // Default catch-all handler to allow Next.js to handle all other routes
