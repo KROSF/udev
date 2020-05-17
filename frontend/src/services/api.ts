@@ -52,7 +52,7 @@ export const login = async (data: Record<'email' | 'password', string>) => {
 
 export const refreshToken = async () => {
   const { refreshToken, isUserLoggedIn } = LocalStorageService
-  if (refreshToken && !isUserLoggedIn) {
+  if (!!refreshToken && !isUserLoggedIn) {
     const res = await api.post('auth/refresh-token', { refreshToken })
     LocalStorageService.setTokens(res.data as Tokens)
   }

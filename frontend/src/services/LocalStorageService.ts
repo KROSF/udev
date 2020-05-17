@@ -27,7 +27,7 @@ export class LocalStorageService {
   public static get isUserLoggedIn() {
     if (!!this.accessToken && !!this.refreshToken) {
       const { exp } = jwtDecode<{ exp: number }>(this.accessToken)
-      return Date.now() / 1000 < exp
+      return Date.now() <= exp * 1000
     }
     return false
   }
