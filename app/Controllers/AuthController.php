@@ -91,7 +91,7 @@ class AuthController extends Controller {
     $data = $this->request->getJSON();
     $user = $this->userModel->findByEmail($data->email);
     if ($user && $user->verified) {
-      helper("email");
+      helper(["email", "frontend"]);
       sendForgotPasswordEmail($user->email);
     }
 
@@ -134,7 +134,7 @@ class AuthController extends Controller {
     $data = $this->request->getJSON();
     $user = $this->userModel->findByEmail($data->email);
     if ($user && !$user->verified) {
-      helper("email");
+      helper(["email", "frontend"]);
       sendVerificationEmail($data->email, "Please verified your email");
     }
 

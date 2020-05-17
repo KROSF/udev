@@ -1,16 +1,6 @@
 <?php
 
 use Config\Services;
-use Config\App;
-
-if (!function_exists('frontEndBaseURL')) {
-  function frontEndBaseURL($paths = []) {
-    /** @var App */
-    $config = config('app');
-
-    return implode("/", [$config->frontEndUrl, ...$paths]);
-  }
-}
 
 if (! function_exists('sendVerificationEmail')) {
   function sendVerificationEmail(string $userEmail, $subject = "Welcome to Udev") {
