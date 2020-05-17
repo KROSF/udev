@@ -12,7 +12,7 @@ class ImageController extends Controller {
   public function upload() {
     /** @var UploadedFile[] */
     $files = $this->request->getFileMultiple("files");
-    $this->logger->critical(print_r($files, true));
+
     if ($files) {
       $uploaded = [];
       foreach ($files as $file) {
