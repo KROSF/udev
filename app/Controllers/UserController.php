@@ -17,9 +17,9 @@ class UserController extends ResourceController {
   protected $format = 'json';
 
   public function index() {
-    $users = $this->model->paginate();
+    $users = $this->model->with('roles')->reindex(false)->paginate();
 
-    return $this->respond($users);
+    return $this->respond(['data' => $users]);
   }
 
   public function show($id = null) {
@@ -48,7 +48,7 @@ class UserController extends ResourceController {
       return $this->failServerError();
     }
 
-    helper("email");
+    helper(["email", "frontend"]);
     sendVerificationEmail($user->email);
 
     return $this->respondCreated(['user' => $inserted]);

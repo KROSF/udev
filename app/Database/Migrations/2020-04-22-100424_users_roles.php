@@ -16,6 +16,8 @@ class UserRoles extends Migration {
         'constraint' => 9,
       ],
     ]);
+    $this->forge->addUniqueKey(['user_id','role_id']);
+    $this->forge->addUniqueKey(['role_id','user_id']);
     $this->forge->addForeignKey('user_id', 'users', 'id');
     $this->forge->addForeignKey('role_id', 'roles', 'id');
     $this->forge->createTable('users_roles');

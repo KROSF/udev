@@ -20,6 +20,10 @@ use CodeIgniter\I18n\Time;
  * @property int $token_version
  * @property Time $created_at
  * @property Time $updated_at
+ * @method bool hasRoles(array|int $roles)
+ * @method bool setRoles(array|int $roles)
+ * @method bool addRoles(array|int $roles)
+ * @method bool removeRoles(array|int $roles)
  */
 class User extends SerializableEntity {
   protected $table = 'users';
