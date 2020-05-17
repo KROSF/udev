@@ -4,8 +4,11 @@ namespace App\Models;
 
 use App\Entities\Post;
 use CodeIgniter\Model;
+use Tatter\Relations\Traits\ModelTrait;
 
 class PostModel extends Model {
+  use ModelTrait;
+
   protected $DBGroup = 'default';
 
   protected $table = "posts";
@@ -16,24 +19,20 @@ class PostModel extends Model {
 
   protected $allowedFields = [
     'title',
-    'description',
-    'text',
-    'draft_text',
-    'author',
+    'body',
+    'user_id',
     'url',
     'likes',
-    'is_submitted',
+    'comments',
     'is_draft',
     'is_published',
     'published_at',
-    'status',
   ];
 
   protected $validationRules = [
     'title' => 'required',
-    'description' => 'required',
-    'draft_text' => 'required',
-    'author' => 'required',
+    'body' => 'required',
+    'user_id' => 'required',
   ];
 
   public function setUpdateRules($data) {

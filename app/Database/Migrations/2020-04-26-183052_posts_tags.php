@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class PostTags extends Migration {
+class PostsTags extends Migration {
   public function up() {
     $this->forge->addField([
       'post_id' => [
@@ -18,10 +18,10 @@ class PostTags extends Migration {
     ]);
     $this->forge->addForeignKey('post_id','posts','id');
     $this->forge->addForeignKey('tag_id','tags','id');
-    $this->forge->createTable('post_tags');
+    $this->forge->createTable('posts_tags');
   }
 
   public function down() {
-    $this->forge->dropTable('post_tags');
+    $this->forge->dropTable('posts_tags');
   }
 }

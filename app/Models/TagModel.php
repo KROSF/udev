@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Entities\Tag;
 use CodeIgniter\Model;
+use Tatter\Relations\Traits\ModelTrait;
 
 class TagModel extends Model {
+  use ModelTrait;
   protected $DBGroup = 'default';
 
   protected $table = "tags";
@@ -32,5 +34,9 @@ class TagModel extends Model {
     $this->validationRules = $rules;
 
     return $this;
+  }
+
+  public function findByName(string $name) {
+    return $this->builder($this->table)->where('name', $name)->get(1)->getFirstRow($this->returnType);
   }
 }

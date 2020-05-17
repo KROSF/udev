@@ -19,4 +19,5 @@ class RoleCode extends Enum {
  * @property bool $status
  */
 class Role extends SerializableEntity {
+  protected $table = 'roles';
 }

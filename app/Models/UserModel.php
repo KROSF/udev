@@ -7,8 +7,11 @@ use App\Entities\User;
 use CodeIgniter\Exceptions\ModelException;
 use InvalidArgumentException;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use Tatter\Relations\Traits\ModelTrait;
 
 class UserModel extends Model {
+  use ModelTrait;
+
   protected $DBGroup = 'default';
 
   protected $table = "users";

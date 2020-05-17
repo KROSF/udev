@@ -16,12 +16,12 @@ class UserRoles extends Migration {
         'constraint' => 9,
       ],
     ]);
-    $this->forge->addForeignKey('user_id','users','id');
-    $this->forge->addForeignKey('role_id','roles','id');
-    $this->forge->createTable('user_roles');
+    $this->forge->addForeignKey('user_id', 'users', 'id');
+    $this->forge->addForeignKey('role_id', 'roles', 'id');
+    $this->forge->createTable('users_roles');
   }
 
   public function down() {
-    $this->forge->dropTable('user_roles');
+    $this->forge->dropTable('users_roles');
   }
 }

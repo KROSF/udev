@@ -22,6 +22,8 @@ use CodeIgniter\I18n\Time;
  * @property Time $updated_at
  */
 class User extends SerializableEntity {
+  protected $table = 'users';
+
   protected $protected = ['password'];
 
   protected $casts = [

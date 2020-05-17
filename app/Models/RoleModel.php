@@ -4,8 +4,11 @@ namespace App\Models;
 
 use App\Entities\Role;
 use CodeIgniter\Model;
+use Tatter\Relations\Traits\ModelTrait;
 
 class RoleModel extends Model {
+  use ModelTrait;
+
   protected $DBGroup = 'default';
 
   protected $table = "roles";

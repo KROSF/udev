@@ -12,20 +12,10 @@ class Posts extends Migration {
         'type' => 'VARCHAR',
         'constraint' => 255,
       ],
-      'description' => [
-        'type' => 'VARCHAR',
-        'constraint' => 255,
+      'body' => [
+        'type' => 'TEXT',
       ],
-      'text' => [
-        'type' => 'VARCHAR',
-        'constraint' => 255,
-        'null' => true,
-      ],
-      'draft_text' => [
-        'type' => 'VARCHAR',
-        'constraint' => 255,
-      ],
-      'author' => [
+      'user_id' => [
         'type' => 'INT',
         'constraint' => 9,
       ],
@@ -37,35 +27,21 @@ class Posts extends Migration {
         'type' => 'INT',
         'constraint' => 9,
       ],
-      'score' => [
+      'comments' => [
         'type' => 'INT',
         'constraint' => 9,
       ],
-      'is_submitted' => [
-        'type' => 'BOOLEAN'
-      ],
       'is_draft' => [
-        'type' => 'BOOLEAN'
+        'type' => 'BOOLEAN',
+        'default' => false,
       ],
       'is_published' => [
-        'type' => 'BOOLEAN'
+        'type' => 'BOOLEAN',
+        'default' => false,
       ],
       'published_at' => [
         'type' => 'DATETIME',
         'null' => true
-      ],
-      'status' => [
-        'type' => 'BOOLEAN'
-      ],
-      'created_by' => [
-        'type' => 'INT',
-        'constraint' => 9,
-        'null' => true,
-      ],
-      'updated_by' => [
-        'type' => 'INT',
-        'constraint' => 9,
-        'null' => true,
       ],
       'created_at' => [
         'type' => 'DATETIME'
@@ -75,10 +51,8 @@ class Posts extends Migration {
       ],
     ]);
     $this->forge->addKey('title');
-    $this->forge->addKey('description');
-    $this->forge->addForeignKey('author','users','id');
-    $this->forge->addForeignKey('created_by','users','id');
-    $this->forge->addForeignKey('updated_by','users','id');
+    $this->forge->addKey('created_at');
+    $this->forge->addForeignKey('user_id','users','id');
     $this->forge->createTable('posts');
   }
 

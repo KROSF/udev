@@ -24,6 +24,8 @@ use DateTime;
  * @property ?User $updated_by
  */
 class Post extends SerializableEntity {
+  protected $table = 'posts';
+
   protected $casts = [
     'is_submitted' => 'boolean',
     'is_draft' => 'boolean',

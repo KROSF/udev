@@ -4,9 +4,14 @@ namespace App\Entities;
 
 use CodeIgniter\Entity;
 use JsonSerializable;
+use Tatter\Relations\Traits\EntityTrait;
 
 class SerializableEntity extends Entity implements JsonSerializable {
+  use EntityTrait;
+
   protected $protected = [];
+
+  protected $primaryKey = 'id';
 
   public function jsonSerialize() {
     $properties = array_diff(array_keys($this->attributes), $this->protected);

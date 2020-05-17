@@ -7,4 +7,5 @@ namespace App\Entities;
  * @property string $name
  */
 class Tag extends SerializableEntity {
+  protected $table = 'tags';
 }
