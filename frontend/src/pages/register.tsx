@@ -11,6 +11,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { signUp } from '../services/api'
 import { useRouter } from 'next/router'
+import PasswordInput from '../components/PasswordInput'
 
 type FormValues = {
   name: string
@@ -91,14 +92,18 @@ const Login = () => {
             </FormControl>
             <FormControl isInvalid={!!errors.password} marginBottom={5}>
               <FormLabel htmlFor="password">Password</FormLabel>
-              <Input name="password" placeholder="password" ref={register} />
+              <PasswordInput
+                name="password"
+                placeholder="password"
+                ref={register}
+              />
               <FormErrorMessage>
                 {errors.password && errors.password.message}
               </FormErrorMessage>
             </FormControl>
             <FormControl isInvalid={!!errors.confirmPassword} marginBottom={5}>
               <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
-              <Input
+              <PasswordInput
                 name="confirmPassword"
                 placeholder="confirmPassword"
                 ref={register}

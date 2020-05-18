@@ -17,6 +17,7 @@ import { login } from '../services/api'
 import { LocalStorageService } from '../services/LocalStorageService'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import PasswordInput from '../components/PasswordInput'
 
 type FormValues = {
   email: string
@@ -85,7 +86,11 @@ const Login = () => {
             </FormControl>
             <FormControl isInvalid={!!errors.password} marginBottom={5}>
               <FormLabel htmlFor="password">Password</FormLabel>
-              <Input name="password" placeholder="password" ref={register} />
+              <PasswordInput
+                name="password"
+                placeholder="password"
+                ref={register}
+              />
               <FormErrorMessage>
                 {errors.password && errors.password.message}
               </FormErrorMessage>

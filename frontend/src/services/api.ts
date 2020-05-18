@@ -92,7 +92,7 @@ export const resetPassword = async ({
 export const newPost = async (
   data: Record<'title' | 'tags' | 'body', string>,
 ) => {
-  const res = await api.post('posts', data)
+  const res = await api.post('posts', { publish: true, ...data })
   return res.data
 }
 
