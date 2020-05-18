@@ -3,7 +3,11 @@
 namespace App\Controllers;
 
 use App\Entities\Post;
+use App\Entities\Tag;
+use App\Entities\User;
 use App\Models\PostModel;
+use App\Models\TagModel;
+use CodeIgniter\I18n\Time;
 use CodeIgniter\RESTful\ResourceController;
 
 /**
@@ -15,9 +19,9 @@ class PostController extends ResourceController {
   protected $format = 'json';
 
   public function index() {
-    $posts = $this->model->paginate();
+    $posts = $this->model->reindex(false)->with("tags")->paginate();
 
-    return $this->respond($posts);
+    return $this->respond(['data' => $posts]);
   }
 
   public function show($id = null) {
@@ -30,8 +34,24 @@ class PostController extends ResourceController {
   }
 
   public function create() {
-    $data = $this->request->getJSON(true);
-    $id = $this->model->insert(new Post($data));
+    /** @var User */
+    $user = $this->request->user;
+    $data = $this->request->getJSON();
+
+    $data->author = $user->id;
+
+    if ($data->publish) {
+      $data->is_published = true;
+      $data->published_at = new Time();
+    } else {
+      $data->is_draft = true;
+    }
+
+    $post = new Post((array) $data);
+
+    $post->user_id = $user->id;
+
+    $id = $this->model->insert($post);
 
     if ($this->model->errors()) {
       return $this->fail(
@@ -45,6 +65,29 @@ class PostController extends ResourceController {
     if ($id === false) {
       return $this->failServerError();
     }
+
+    $tags = explode(',', $data->tags);
+
+    $tagModel = new TagModel();
+
+    $tagsId = [];
+
+    foreach ($tags as $tag) {
+      /** @var Tag */
+      $found = $tagModel->findByName($tag);
+      if ($found) {
+        $tagsId[] = $found->id;
+      } else {
+        $tagsId[] = $tagModel->insert(['name' => $tag]);
+      }
+    }
+
+    helper('frontend');
+
+    $post->id = $id;
+    $post->url = postURL($post);
+    $post->addTags($tagsId);
+    $this->model->save($post);
 
     return $this->respondCreated(['post' => $id]);
   }

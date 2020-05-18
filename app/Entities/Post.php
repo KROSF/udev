@@ -11,7 +11,7 @@ use DateTime;
  * @property string $description
  * @property ?string $text
  * @property string $draft_text
- * @property User $author
+ * @property User $user_id
  * @property string $url
  * @property int $likes
  * @property int $score
