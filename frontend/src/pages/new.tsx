@@ -8,17 +8,11 @@ import {
   FormErrorMessage,
   useDisclosure,
 } from '@chakra-ui/core'
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { object, string } from 'yup'
-import { newPost } from '../services/api'
+import { object, string, boolean } from 'yup'
+import { newPost, NewPostDTO } from '../services/api'
 import ImagesForm from '../components/ImagesForm'
-
-type FormValues = {
-  title: string
-  tags: string
-  body: string
-}
 
 const schema = object().shape({
   title: string().required(),
@@ -27,24 +21,31 @@ const schema = object().shape({
 })
 
 const NewPost = () => {
-  const { handleSubmit, errors, register } = useForm<FormValues>({
+  const { handleSubmit, errors, register } = useForm<NewPostDTO>({
     validationSchema: schema,
   })
 
   const { isOpen, onClose, onOpen } = useDisclosure(false)
 
-  const onSubmit = useCallback(async (data: FormValues) => {
-    try {
-      await newPost(data)
-    } catch (error) {}
-  }, [])
+  const onSubmit = useCallback(
+    (publish) => async (data: NewPostDTO) => {
+      try {
+        await newPost({ ...data, publish })
+      } catch (error) {}
+    },
+    [],
+  )
 
   return (
     <Flex
       as="form"
       flexDirection="column"
       flexGrow={100}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        handleSubmit(
+          onSubmit((e.nativeEvent as any).submitter.id === 'publish'),
+        )(e)
+      }}
     >
       <Flex
         flex="1 0 auto"
@@ -120,7 +121,7 @@ const NewPost = () => {
         <Button marginRight={5} rounded="full">
           PREVIEW
         </Button>
-        <Button marginRight={5} rounded="full">
+        <Button marginRight={5} rounded="full" type="submit" id="draft">
           SAVE DRAFT
         </Button>
         <Button
@@ -129,6 +130,7 @@ const NewPost = () => {
           rightIcon="arrow-forward"
           rounded="full"
           type="submit"
+          id="publish"
         >
           PUBLISH
         </Button>

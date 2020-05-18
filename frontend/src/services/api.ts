@@ -89,10 +89,14 @@ export const resetPassword = async ({
 }: Record<'code' | 'password', string>) =>
   api.put(`auth/reset-password/${code}`, { password })
 
-export const newPost = async (
-  data: Record<'title' | 'tags' | 'body', string>,
-) => {
-  const res = await api.post('posts', { publish: true, ...data })
+export type NewPostDTO = {
+  title: string
+  tags: string
+  body: string
+  publish: boolean
+}
+export const newPost = async (data: NewPostDTO) => {
+  const res = await api.post('posts', data)
   return res.data
 }
 
