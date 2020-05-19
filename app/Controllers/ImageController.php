@@ -10,6 +10,7 @@ class ImageController extends Controller {
   use ResponseTrait;
 
   public function upload() {
+    helper('frontend');
     /** @var UploadedFile[] */
     $files = $this->request->getFileMultiple("files");
 
@@ -18,8 +19,7 @@ class ImageController extends Controller {
       foreach ($files as $file) {
         $name = $file->getRandomName();
         $file->move(ROOTPATH.implode(DIRECTORY_SEPARATOR, ['public', 'images']), $name);
-        [$code] = explode('.', $name);
-        $uploaded[] = $code;
+        $uploaded[] = frontEndBaseURL(['images', $name]);
       }
 
       return $this->respond(['uploaded' => $uploaded]);
