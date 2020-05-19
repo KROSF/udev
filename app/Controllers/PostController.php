@@ -19,7 +19,7 @@ class PostController extends ResourceController {
   protected $format = 'json';
 
   public function index() {
-    $posts = $this->model->reindex(false)->with("tags")->paginate();
+    $posts = $this->model->reindex(false)->with(["tags", "users"])->paginate(5);
 
     return $this->respond(['data' => $posts]);
   }
