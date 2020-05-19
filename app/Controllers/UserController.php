@@ -3,10 +3,9 @@
 namespace App\Controllers;
 
 use App\Entities\User;
+use App\Models\PostModel;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\UserModel;
-use Config\Email;
-use Config\Services;
 
 /**
  * @property UserModel $model
@@ -81,5 +80,17 @@ class UserController extends ResourceController {
     $this->model->delete($id);
 
     return $this->respondDeleted(['deleted' => $id]);
+  }
+
+  public function posts($user_id) {
+    $user = $this->model->find($user_id);
+    if (is_null($user)) {
+      return $this->failNotFound();
+    }
+
+    $postsModel = new PostModel();
+    $user_posts = $postsModel->reindex(false)->with(["tags", "users"])->where('user_id', $user_id)->paginate();
+
+    return $this->respond(['data' => $user_posts]);
   }
 }
