@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Flex, Heading, Button, CloseButton, FlexProps } from '@chakra-ui/core'
-import UploadImage from './UploadImage'
+import DropZone from './DropZone'
 import { UseDisclosureReturn } from '@chakra-ui/core/dist/useDisclosure'
+import { sendFiles } from '../services/api'
+import Copiable from './Copiable'
 
 const MAX_SIZE_25MB = 26_214_400
 
 const ImagesForm: React.FC<
   Pick<UseDisclosureReturn, 'onClose'> & FlexProps
 > = ({ onClose, ...props }) => {
+  const [bodyFiles, setBodyFiles] = useState<string[]>([])
   return (
     <Flex flexDirection="column" alignItems="center" {...props}>
       <Flex alignSelf="flex-start">
@@ -17,9 +20,14 @@ const ImagesForm: React.FC<
         <Heading as="h3" fontWeight="bolder" color="teal.500" marginBottom={5}>
           Cover Image
         </Heading>
-        <UploadImage
+        <DropZone
+          sendFiles
+          hasThumbnail
           marginBottom={5}
           width="100%"
+          onSendFiles={async (files) => {
+            await sendFiles(files)
+          }}
           dropZoneOptions={{
             accept: 'image/*',
             maxSize: MAX_SIZE_25MB,
@@ -29,11 +37,26 @@ const ImagesForm: React.FC<
         <Heading as="h3" fontWeight="bolder" color="teal.500" marginBottom={5}>
           Body Images
         </Heading>
-        <UploadImage
-          marginBottom={5}
-          width="100%"
-          dropZoneOptions={{ accept: 'image/*', maxSize: MAX_SIZE_25MB }}
-        />
+        {bodyFiles.length > 0 ? (
+          <Flex flexDirection="column" width="100%">
+            {bodyFiles.map((file) => (
+              <Copiable text={`![](${file})`} />
+            ))}
+          </Flex>
+        ) : (
+          <DropZone
+            sendFiles
+            onSendFiles={async (files) => {
+              try {
+                const res = await sendFiles(files)
+                setBodyFiles(res)
+              } catch {}
+            }}
+            marginBottom={5}
+            width="100%"
+            dropZoneOptions={{ accept: 'image/*', maxSize: MAX_SIZE_25MB }}
+          />
+        )}
         <Button variantColor="teal" onClick={onClose}>
           Done
         </Button>
