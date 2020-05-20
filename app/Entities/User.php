@@ -28,7 +28,7 @@ use CodeIgniter\I18n\Time;
 class User extends SerializableEntity {
   protected $table = 'users';
 
-  protected $protected = ['password'];
+  protected $protected = ['password','token_version'];
 
   protected $casts = [
     'id' => 'int',
