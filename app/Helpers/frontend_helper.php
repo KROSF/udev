@@ -14,7 +14,6 @@ if (!function_exists('frontEndBaseURL')) {
 
 if (!function_exists('postURL')) {
   function postURL(Post $post) {
-
-    return frontEndBaseURL(['posts',str_replace(' ', '-', $post->title).'-'.$post->id]);
+    return frontEndBaseURL([str_replace(' ', '-', strtolower($post->title)).'-'.$post->id]);
   }
 }
