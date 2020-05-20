@@ -19,13 +19,13 @@ class PostController extends ResourceController {
   protected $format = 'json';
 
   public function index() {
-    $posts = $this->model->reindex(false)->with(["tags", "users"])->paginate(5);
+    $posts = $this->model->reindex(false)->with(["tags", "users"])->paginate();
 
     return $this->respond(['data' => $posts]);
   }
 
   public function show($id = null) {
-    $post = $this->model->find($id);
+    $post = $this->model->reindex(false)->with(["tags", "users"])->find($id);
     if (is_null($post)) {
       return $this->failNotFound();
     }
@@ -37,8 +37,6 @@ class PostController extends ResourceController {
     /** @var User */
     $user = $this->request->user;
     $data = $this->request->getJSON();
-
-    $data->author = $user->id;
 
     if ($data->publish) {
       $data->is_published = true;
