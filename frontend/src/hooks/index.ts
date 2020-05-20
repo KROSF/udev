@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+export { default as useApi } from './useApi'
 
 export const useOutsideClick = (
   ref: React.MutableRefObject<any>,
