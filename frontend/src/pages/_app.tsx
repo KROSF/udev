@@ -9,6 +9,7 @@ import theme from '../theme'
 import { AppProps } from 'next/app'
 import NavBar from '../components/NavBar'
 import { refreshToken } from '../services/api'
+import 'highlight.js/styles/monokai.css'
 
 const Layout: React.FC = ({ children }) => (
   <Flex flexDirection="column" flex={1}>

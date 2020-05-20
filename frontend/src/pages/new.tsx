@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/core'
 import React, { useCallback, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { object, string, boolean } from 'yup'
+import { object, string } from 'yup'
 import { newPost, NewPostDTO } from '../services/api'
 import ImagesForm from '../components/ImagesForm'
 

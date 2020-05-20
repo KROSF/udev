@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios'
 import Router from 'next/router'
 import { LocalStorageService, Tokens } from './LocalStorageService'
 
-const api = axios.create({ baseURL: 'http://localhost:3000/api/' })
+export const api = axios.create({ baseURL: 'http://localhost:3000/api/' })
 
 api.interceptors.request.use(
   (config) => {
@@ -70,8 +70,8 @@ export const signUp = async (
 }
 
 export const validateEmail = async ({ code }: Record<'code', string>) => {
-  const res = await api.get(`auth/active/${code}`)
-  return res.data as { message: string }
+  const res = await api.get<{ message: string }>(`auth/active/${code}`)
+  return res.data
 }
 
 export const resendVerificationCode = async (data: Record<'email', string>) => {
@@ -95,18 +95,76 @@ export type NewPostDTO = {
   body: string
   publish: boolean
 }
+
 export const newPost = async (data: NewPostDTO) => {
   const res = await api.post('posts', data)
   return res.data
 }
 
+export interface RootImages {
+  uploaded: string[]
+}
 export const sendFiles = async (files: File[]) => {
   const fd = new FormData()
   files.forEach((file) => {
     fd.append('files[]', file, file.name)
   })
-  const res = await api.post('images', fd, {
+  const res = await api.post<RootImages>('images', fd, {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
+  return res.data.uploaded
+}
+
+export interface RootPost {
+  data: Post[]
+}
+
+export interface Post {
+  body: string
+  comments: string
+  created_at: string
+  id: string
+  is_draft: boolean
+  is_published: boolean
+  likes: string
+  published_at?: string
+  tags: Tag[]
+  title: string
+  updated_at: string
+  url: string
+  user: User
+  user_id: string
+}
+
+export interface Tag {
+  created_at: string
+  id: string
+  name: string
+  updated_at: string
+}
+
+export interface User {
+  avatar: any
+  created_at: string
+  email: string
+  github_username: any
+  id: number
+  name: string
+  stackoverflow_url: any
+  status: boolean
+  token_version: number
+  twitter_username: any
+  updated_at: string
+  username: string
+  verified: boolean
+}
+
+export const posts = async () => {
+  const res = await api.get<RootPost>('posts')
+  return res.data.data
+}
+
+export const post = async (id: string) => {
+  const res = await api.get<Post>(`posts/${id}`)
   return res.data
 }

@@ -1,48 +1,41 @@
 import { Flex } from '@chakra-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
+import { posts, Post } from '../services/api'
 
 const Home = () => {
+  const [data, setData] = useState<Post[]>([])
+
+  useEffect(() => {
+    ;(async () => {
+      const res = await posts()
+      setData(res)
+    })()
+  }, [])
+
   return (
     <Flex>
       <Flex flex={1} justifyContent="flex-end" paddingRight="1.5rem">
         Hola
       </Flex>
       <Flex flex={1} flexDirection="column">
-        <Card
-          image={{
-            src: '/images/q19vviykh0oi1s5tkbqe.png',
-            alt: 'deno',
-          }}
-          title="Deno is here!"
-          author={{
-            email: 'rodrigosanabria22@gmail.com',
-            name: 'Rodrigo Sanabria',
-          }}
-          tags={['javascript', 'node', 'deno']}
-          likes={0}
-          comments={0}
-        />
-        <Card
-          title="Deno is here!"
-          author={{
-            email: 'ruben.mondom@gmail.com',
-            name: 'Ruben Montero',
-          }}
-          tags={['wordpress', 'php', 'drupal']}
-          likes={0}
-          comments={0}
-        />
-        <Card
-          title="Deno is here!"
-          author={{
-            email: 'frpericacho@gmail.com',
-            name: 'Felix Rodriguez',
-          }}
-          tags={['cpp', 'java', 'maven']}
-          likes={0}
-          comments={0}
-        />
+        {data.map((post, index) => {
+          return (
+            <Card
+              key={post.title + index}
+              image={
+                index === 0
+                  ? { src: '/images/q19vviykh0oi1s5tkbqe.png', alt: 'deno' }
+                  : undefined
+              }
+              title={post.title}
+              author={{ email: post.user.email, name: post.user.name }}
+              tags={post.tags.map((tag) => tag.name)}
+              likes={+post.likes}
+              comments={+post.comments}
+            />
+          )
+        })}
       </Flex>
       <Flex flex={1} paddingLeft="1.5rem">
         Hola
