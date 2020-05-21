@@ -1,17 +1,24 @@
 import { Flex } from '@chakra-ui/core'
 import React, { useEffect, useState } from 'react'
 import Card from '../components/Card'
-import { posts, Post } from '../services/api'
+import { posts, Post, RootPost } from '../services/api'
+import { useApi } from '../hooks'
+import Loading from '../components/Loading'
 
 const Home = () => {
-  const [data, setData] = useState<Post[]>([])
+  const { response, loading, error } = useApi<RootPost>({
+    url: '/posts',
+    trigger: '',
+    forceDispatchEffect: () => true,
+  })
 
-  useEffect(() => {
-    ;(async () => {
-      const res = await posts()
-      setData(res)
-    })()
-  }, [])
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error || response === null) {
+    return <Flex>Error...</Flex>
+  }
 
   return (
     <Flex>
@@ -19,7 +26,7 @@ const Home = () => {
         Hola
       </Flex>
       <Flex flex={1} flexDirection="column">
-        {data.map((post, index) => {
+        {response.data.data.map((post, index) => {
           return (
             <Card
               key={post.title + index}
