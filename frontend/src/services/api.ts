@@ -126,12 +126,13 @@ export interface Post {
   id: string
   is_draft: boolean
   is_published: boolean
-  likes: string
+  likes: { user_id: string; post_id: string }[]
   published_at?: string
   tags: Tag[]
   title: string
   updated_at: string
   url: string
+  cover_url?: string
   user: User
   user_id: string
 }
