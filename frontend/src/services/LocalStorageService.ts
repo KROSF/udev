@@ -37,7 +37,9 @@ export class LocalStorageService {
   }
 
   public static get user() {
-    this.setUser()
+    if (!this._user) {
+      this.setUser()
+    }
     return this._user
   }
 
