@@ -2,14 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Entities\Post;
 use App\Entities\Tag;
+use App\Models\PostModel;
 use App\Models\TagModel;
 use CodeIgniter\RESTful\ResourceController;
 
 /**
  * @property TagModel $model
  */
-class PostController extends ResourceController {
+class TagController extends ResourceController {
   protected $modelName = TagModel::class;
 
   protected $format = 'json';
@@ -76,5 +78,24 @@ class PostController extends ResourceController {
     $this->model->delete($id);
 
     return $this->respondDeleted(['deleted' => $id]);
+  }
+
+  public function posts($name) {
+    /** @var Tag */
+    $tag = $this->model->findByName($name);
+    if (is_null($tag)) {
+      return $this->failNotFound();
+    }
+    $postsModel = new PostModel();
+    /** @var Post[] */
+    $tag_posts = $postsModel->reindex(false)->with(["tags", "users"])->paginate();
+    $posts_with_tag = [];
+    foreach ($tag_posts as $post) {
+      if ($post->hasTags($tag->id)) {
+        $posts_with_tag[] = $post;
+      }
+    }
+
+    return $this->respond(['data' => $posts_with_tag]);
   }
 }
