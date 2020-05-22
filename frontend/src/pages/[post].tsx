@@ -7,6 +7,7 @@ import Loading from '../components/Loading'
 import AuthorCard from '../components/AuthorCard'
 import PostTags from '../components/PostTags'
 import Author from '../components/Author'
+import NotFound from '../components/NotFound'
 
 const getPostId = (post?: string | string[]) =>
   post && typeof post === 'string'
@@ -27,7 +28,7 @@ const PostByID = () => {
   }
 
   if (error || response === null) {
-    return <Flex>Error...</Flex>
+    return <NotFound />
   }
 
   return (
