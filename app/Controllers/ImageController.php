@@ -2,13 +2,10 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\API\ResponseTrait;
-use CodeIgniter\Controller;
 use CodeIgniter\HTTP\Files\UploadedFile;
+use CodeIgniter\RESTful\ResourceController;
 
-class ImageController extends Controller {
-  use ResponseTrait;
-
+class ImageController extends ResourceController {
   public function upload() {
     helper('frontend');
     /** @var UploadedFile[] */

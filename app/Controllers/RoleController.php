@@ -9,7 +9,7 @@ use CodeIgniter\RESTful\ResourceController;
 /**
  * @property RoleModel $model
  */
-class PostController extends ResourceController {
+class RoleController extends ResourceController {
   protected $modelName = RoleModel::class;
 
   protected $format = 'json';

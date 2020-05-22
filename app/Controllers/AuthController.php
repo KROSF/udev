@@ -3,12 +3,11 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
-use CodeIgniter\API\ResponseTrait;
-use CodeIgniter\Controller;
 use Config\Auth;
 use Firebase\JWT\JWT;
 use stdClass;
 use App\Entities\User;
+use CodeIgniter\RESTful\ResourceController;
 use Exception;
 
 /**
@@ -18,8 +17,7 @@ use Exception;
 class Credentials {
 }
 
-class AuthController extends Controller {
-  use ResponseTrait;
+class AuthController extends ResourceController {
 
   protected UserModel $userModel;
 
