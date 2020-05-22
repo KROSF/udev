@@ -95,11 +95,14 @@ const Dropdown: React.FC<{
     >
       <CSSTransition in unmountOnExit timeout={500} onEnter={onEnter}>
         <Box width="100%">
-          {LocalStorageService.isUserLoggedIn && (
-            <DropdownItem>
+          {LocalStorageService.user && (
+            <DropdownItem
+              onClick={() =>
+                router.push(`/users/${LocalStorageService.user?.username}`)
+              }
+            >
               <Flex flexDirection="column">
-                <Flex>Rodrigo Sanabria</Flex>
-                <Flex>@krosf</Flex>
+                <Flex>@{LocalStorageService.user.username}</Flex>
               </Flex>
             </DropdownItem>
           )}
