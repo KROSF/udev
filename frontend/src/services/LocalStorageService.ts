@@ -9,12 +9,9 @@ export type Tokens = {
 export class LocalStorageService {
   private static _user?: User
   public static setTokens({ accessToken, refreshToken }: Tokens): void {
-    const { id } = jwtDecode<{ id: number }>(accessToken)
-    api.get<User>(`users/${id}`).then((res) => {
-      this._user = res.data
-    })
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('refreshToken', refreshToken)
+    this.setUser()
   }
 
   public static get accessToken() {
@@ -40,6 +37,16 @@ export class LocalStorageService {
   }
 
   public static get user() {
-    return this.isUserLoggedIn ? this._user : undefined
+    this.setUser()
+    return this._user
+  }
+
+  private static setUser() {
+    if (this.isUserLoggedIn && this.accessToken) {
+      const { id } = jwtDecode<{ id: number }>(this.accessToken)
+      api.get<User>(`users/${id}`).then((res) => {
+        this._user = res.data
+      })
+    }
   }
 }
