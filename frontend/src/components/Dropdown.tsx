@@ -90,6 +90,7 @@ const Dropdown: React.FC<{
       transition="height 500ms ease"
       rounded="lg"
       height={height}
+      zIndex={2}
       {...colorModeStyles[colorMode]}
     >
       <CSSTransition in unmountOnExit timeout={500} onEnter={onEnter}>
