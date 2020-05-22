@@ -34,7 +34,12 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->group('api', function (RouteCollection $routes) {
-  $routes->get('users/(:num)/posts', 'UserController::posts/$1' );
+  $routes->get('tags/(:alpha)/posts', 'TagController::posts/$1');
+
+  $routes->get('users/(:num)/posts', 'UserController::posts/$1');
+
+  $routes->post('posts/(:num)/like', 'PostController::like/$1', ['filter' => 'auth']);
+
   $routes->resource('users',[
     'only' => ['index', 'show','create', 'update', 'delete'],
     'controller' => 'UserController',
