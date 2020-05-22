@@ -27,11 +27,11 @@ const PostByID = () => {
     return <Loading />
   }
 
-  if (error || response === null) {
+  if (error) {
     return <NotFound />
   }
 
-  return (
+  return response ? (
     <Flex>
       <Flex flex={1} justifyContent="flex-end" paddingX="1.5rem"></Flex>
       <Flex flex={2} flexDirection="column" overflow="scroll">
@@ -59,6 +59,8 @@ const PostByID = () => {
         <AuthorCard user={response.data.user} width="100%" />
       </Flex>
     </Flex>
+  ) : (
+    <></>
   )
 }
 
