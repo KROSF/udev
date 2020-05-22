@@ -23,6 +23,10 @@ class Posts extends Migration {
         'type' => 'VARCHAR',
         'constraint' => 255,
       ],
+      'cover_url' => [
+        'type' => 'VARCHAR',
+        'constraint' => 255,
+      ],
       'likes' => [
         'type' => 'INT',
         'constraint' => 9,

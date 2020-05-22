@@ -27,6 +27,7 @@ class PostModel extends Model {
     'is_draft',
     'is_published',
     'published_at',
+    'cover_url'
   ];
 
   protected $validationRules = [

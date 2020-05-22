@@ -19,7 +19,8 @@ class PostController extends ResourceController {
   protected $format = 'json';
 
   public function index() {
-    $posts = $this->model->reindex(false)->with(["tags", "users"])->paginate();
+    /** @var Post[] */
+    $posts = $this->model->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate();
 
     return $this->respond(['data' => $posts]);
   }
@@ -117,5 +118,20 @@ class PostController extends ResourceController {
     $this->model->delete($id);
 
     return $this->respondDeleted(['deleted' => $id]);
+  }
+
+  public function like($id) {
+    /** @var Post */
+    $post = $this->model->find($id);
+    if (is_null($post)) {
+      return $this->failNotFound();
+    }
+    /** @var User */
+    $user = $this->request->user;
+
+    $post->updateLikes($user->id);
+    $this->model->save($post);
+
+    return $this->respondNoContent();
   }
 }
