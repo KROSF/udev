@@ -1,8 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react'
-
 import { useDropzone, DropzoneOptions } from 'react-dropzone'
 import { Flex, FlexProps, Image } from '@chakra-ui/core'
-import { sendFiles } from '../services/api'
 
 export interface FilePreview extends File {
   preview: string
@@ -59,7 +57,7 @@ const DropZone: React.FC<
     if (sendFiles && files.length > 0) {
       onSendFiles(files)
     }
-  }, [sendFiles, files])
+  }, [sendFiles, files, onSendFiles])
 
   return hasThumbnail && files.length > 0 ? (
     <Flex>

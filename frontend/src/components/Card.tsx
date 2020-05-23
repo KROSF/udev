@@ -2,9 +2,10 @@
 import { Box, Flex, Image, Link } from '@chakra-ui/core'
 import React from 'react'
 import Gravatar from './Gravatar'
-import NextLink from 'next/link'
+import { Link as RLink } from 'react-router-dom'
 import { Post } from '../services/api'
 import { css, jsx } from '@emotion/core'
+import { routes } from '../router/routes'
 
 export interface CardProps {
   post: Post
@@ -38,23 +39,23 @@ const Card: React.FC<CardProps> = ({
           </Box>
         </Link>
         <Flex flexDirection="row">
-          <Link marginRight={1} href={`/users/${user.username}`}>
+          <Link marginRight={1} href={routes.user(user.username)}>
             <Gravatar email={user.email} />
           </Link>
           <Flex flexDirection="column">
             <Flex>
               {tags.map((tag) => (
-                <NextLink href={`/tags/${tag.name}`} key={tag.id + tag.name}>
+                <RLink to={routes.tag(tag.name)} key={tag.id + tag.name}>
                   <Link as="a" marginRight={1}>
                     #{tag.name}
                   </Link>
-                </NextLink>
+                </RLink>
               ))}
             </Flex>
             <Flex>
-              <NextLink href={`/users/${user.username}`} passHref>
+              <RLink to={routes.user(user.username)}>
                 <Link color="gray.500">{user.name}</Link>
-              </NextLink>
+              </RLink>
             </Flex>
           </Flex>
         </Flex>
@@ -67,7 +68,7 @@ const Card: React.FC<CardProps> = ({
               height="18px"
             />
             <Box as="span" marginLeft={1} fontSize="base" color="gray.500">
-              {likes}
+              {likes.length}
             </Box>
           </Link>
           <Link href={url} display="flex">

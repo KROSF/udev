@@ -1,4 +1,4 @@
-import { api } from '../services/api'
+import { api } from '../services/auth'
 import defaultAxios, {
   AxiosInstance,
   Method,
@@ -133,6 +133,7 @@ export default <T = any>({
     return () => {
       source.cancel()
     }
+    // eslint-disable-next-line
   }, [innerTrigger, outerTrigger])
 
   return {

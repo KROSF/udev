@@ -1,6 +1,8 @@
 import React from 'react'
 import { Tag } from '../services/api'
-import { Flex, Tag as ChakraTag, FlexProps, Link } from '@chakra-ui/core'
+import { Flex, Tag as ChakraTag, FlexProps } from '@chakra-ui/core'
+import { routes } from '../router/routes'
+import { Link } from 'react-router-dom'
 
 const colors = [
   'gray',
@@ -24,8 +26,13 @@ const PostTags: React.FC<FlexProps & { tags: Tag[] }> = ({
   return (
     <Flex {...props}>
       {tags.map((tag) => (
-        <Link href={`/tags/${tag.name}`} marginRight={2}>
-          <ChakraTag key={tag.id} variantColor={randomColor()} size="sm">
+        <Link to={routes.tag(tag.name)}>
+          <ChakraTag
+            key={tag.id}
+            variantColor={randomColor()}
+            size="sm"
+            marginRight={2}
+          >
             #{tag.name}
           </ChakraTag>
         </Link>

@@ -1,66 +1,9 @@
-import axios, { AxiosError } from 'axios'
-import Router from 'next/router'
-import { LocalStorageService, Tokens } from './LocalStorageService'
-
-export const api = axios.create({ baseURL: 'http://localhost:3000/api/' })
-
-api.interceptors.request.use(
-  (config) => {
-    const { accessToken } = LocalStorageService
-    if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`
-    }
-    if (!!config.headers['Content-Type']) {
-      config.headers['Content-Type'] = 'application/json'
-    }
-    return config
-  },
-  (error) => Promise.reject(error),
-)
-
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const { config, response } = error as AxiosError
-
-    if (response!.status === 401 && config.url === 'auth/refresh-token') {
-      Router.push('/login')
-      return Promise.reject(error)
-    }
-
-    if (response!.status === 401 && !(config as any)._retry) {
-      ;(config as any)._retry = true
-      const res = await api.post('auth/refresh-token', {
-        refreshToken: LocalStorageService.refreshToken,
-      })
-      if (res.status === 201) {
-        LocalStorageService.setTokens(res.data as Tokens)
-        api.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${LocalStorageService.accessToken}`
-        return api(config)
-      }
-    }
-    return Promise.reject(error)
-  },
-)
+import { api } from './auth'
+import { Tokens } from './TokenStore'
 
 export const login = async (data: Record<'email' | 'password', string>) => {
-  const res = await api.post('auth/login', data)
-  return res.data as Tokens
-}
-
-export const refreshToken = async () => {
-  const { refreshToken, isUserLoggedIn } = LocalStorageService
-  if (!!refreshToken && !isUserLoggedIn) {
-    const res = await api.post('auth/refresh-token', { refreshToken })
-    LocalStorageService.setTokens(res.data as Tokens)
-  }
-}
-
-export const logOut = async () => {
-  await api.get('auth/revoke-token')
-  LocalStorageService.clearTokens()
+  const res = await api.post<Tokens>('auth/login', data)
+  return res.data
 }
 
 export const signUp = async (
@@ -120,44 +63,48 @@ export interface RootPost {
 }
 
 export interface Post {
+  id: number
+  title: string
   body: string
+  user_id: string
+  url: string
+  cover_url: string
+  likes: Like[]
   comments: string
-  created_at: string
-  id: string
   is_draft: boolean
   is_published: boolean
-  likes: { user_id: string; post_id: string }[]
-  published_at?: string
-  tags: Tag[]
-  title: string
+  published_at: string
+  created_at: string
   updated_at: string
-  url: string
-  cover_url?: string
+  tags: Tag[]
   user: User
+}
+
+export interface Like {
+  post_id: string
   user_id: string
 }
 
 export interface Tag {
-  created_at: string
   id: string
   name: string
+  created_at: string
   updated_at: string
 }
 
 export interface User {
-  avatar: any
-  created_at: string
-  email: string
-  github_username: any
   id: number
   name: string
-  stackoverflow_url: any
-  status: boolean
-  token_version: number
-  twitter_username: any
-  updated_at: string
+  email: string
   username: string
+  avatar: any
+  status: boolean
   verified: boolean
+  github_username: any
+  twitter_username: any
+  stackoverflow_url: any
+  created_at: string
+  updated_at: string
 }
 
 export const posts = async () => {

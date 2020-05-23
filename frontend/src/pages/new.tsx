@@ -8,7 +8,7 @@ import {
   FormErrorMessage,
   useDisclosure,
 } from '@chakra-ui/core'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { object, string } from 'yup'
 import { newPost, NewPostDTO } from '../services/api'

@@ -1,26 +1,24 @@
+import React from 'react'
 import MarkdownRender from '../components/MarkdownRender'
-import { useRouter } from 'next/router'
+import { useParams } from 'react-router-dom'
 import { Post } from '../services/api'
 import { useApi } from '../hooks'
-import { Flex, Heading, Image, Box } from '@chakra-ui/core'
+import { Flex, Heading, Image } from '@chakra-ui/core'
 import Loading from '../components/Loading'
 import AuthorCard from '../components/AuthorCard'
 import PostTags from '../components/PostTags'
 import Author from '../components/Author'
 import NotFound from '../components/NotFound'
 
-const getPostId = (post?: string | string[]) =>
-  post && typeof post === 'string'
-    ? post.substring(post.lastIndexOf('-') + 1)
-    : ''
+const getPostId = (post?: string) =>
+  post ? post.substring(post.lastIndexOf('-') + 1) : ''
 
 const PostByID = () => {
-  const router = useRouter()
-  const postId = getPostId(router.query.post)
+  const { post } = useParams()
   const { response, loading, error } = useApi<Post>({
-    url: `/posts/${postId}`,
-    trigger: postId,
-    forceDispatchEffect: () => !!postId,
+    url: `/posts/${getPostId(post)}`,
+    trigger: post,
+    forceDispatchEffect: () => !!post,
   })
 
   if (loading) {

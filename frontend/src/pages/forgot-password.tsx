@@ -10,32 +10,35 @@ import {
 import { useForm } from 'react-hook-form'
 import { object, string } from 'yup'
 import { forgotPassword } from '../services/api'
-import { useRouter } from 'next/router'
+import { useNavigate } from 'react-router-dom'
 
 const schema = object().shape({
   email: string().email().required(),
 })
 
 const ForgotPassword = () => {
-  const router = useRouter()
+  const navigate = useNavigate()
   const { handleSubmit, errors, register, formState, setError } = useForm<{
     email: string
   }>({
     validationSchema: schema,
   })
 
-  const onSubmit = useCallback(async (data: Record<'email', string>) => {
-    try {
-      await forgotPassword(data)
-      router.push('/reset-password')
-    } catch (error) {
-      setError(
-        'email',
-        'server: ' + error.response.status,
-        error.response.data.messages.error,
-      )
-    }
-  }, [])
+  const onSubmit = useCallback(
+    async (data: Record<'email', string>) => {
+      try {
+        await forgotPassword(data)
+        navigate('/reset-password')
+      } catch (error) {
+        setError(
+          'email',
+          'server: ' + error.response.status,
+          error.response.data.messages.error,
+        )
+      }
+    },
+    [navigate, setError],
+  )
 
   return (
     <Flex justifyContent="center" height="100%" marginTop={20}>

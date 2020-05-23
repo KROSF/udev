@@ -1,12 +1,11 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import { Flex, Button, Icon } from '@chakra-ui/core'
-import Gravatar from '../../components/Gravatar'
+import Gravatar from '../components/Gravatar'
 import { Github, Twitter } from '@zeit-ui/react-icons'
+import { useParams } from 'react-router-dom'
 
 const User = () => {
-  const router = useRouter()
-  const { username } = router.query
+  const { username } = useParams()
   return (
     <Flex borderWidth="1px" rounded="lg" marginX="32px" paddingY="3rem">
       <Flex flex={1} alignItems="center" justifyContent="center">

@@ -3,12 +3,11 @@ import {
   InputGroup,
   Input,
   InputRightElement,
-  Button,
   InputProps,
   IconButton,
 } from '@chakra-ui/core'
 import { EyeOff, Eye } from '@zeit-ui/react-icons'
-import React, { forwardRef, useState } from 'react'
+import { forwardRef, useState } from 'react'
 import { jsx, css } from '@emotion/core'
 
 const PasswordInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {

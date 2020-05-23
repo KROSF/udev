@@ -10,8 +10,9 @@ import {
 } from '@chakra-ui/core'
 import { useForm } from 'react-hook-form'
 import { signUp } from '../services/api'
-import { useRouter } from 'next/router'
+import { useNavigate } from 'react-router-dom'
 import PasswordInput from '../components/PasswordInput'
+import { routes } from '../router/routes'
 
 type FormValues = {
   name: string
@@ -30,7 +31,7 @@ const schema = object().shape({
 })
 
 const Login = () => {
-  const router = useRouter()
+  const navigate = useNavigate()
   const { handleSubmit, errors, register, formState, setError } = useForm<
     FormValues
   >({
@@ -41,7 +42,7 @@ const Login = () => {
     async ({ confirmPassword: _, ...data }: FormValues) => {
       try {
         await signUp(data)
-        router.push('/validate', { query: { email: data.email } })
+        navigate(routes.validate({ email: data.email }))
       } catch (error) {
         Object.entries<string>(error.response.data.messages.errors).forEach(
           ([key, value]) => {
@@ -50,7 +51,7 @@ const Login = () => {
         )
       }
     },
-    [],
+    [navigate, setError],
   )
 
   return (

@@ -1,6 +1,4 @@
-/** @jsx jsx */
 import React, { useRef, useEffect } from 'react'
-import { jsx, css } from '@emotion/core'
 import hljs from 'highlight.js'
 import { Box } from '@chakra-ui/core'
 

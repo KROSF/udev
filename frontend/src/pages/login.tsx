@@ -14,10 +14,10 @@ import {
 } from '@chakra-ui/core'
 import { useForm } from 'react-hook-form'
 import { login } from '../services/api'
-import { LocalStorageService } from '../services/LocalStorageService'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useNavigate, Link } from 'react-router-dom'
 import PasswordInput from '../components/PasswordInput'
+import { routes } from '../router/routes'
+import { useAuth } from '../services/auth'
 
 type FormValues = {
   email: string
@@ -31,7 +31,8 @@ const schema = object().shape({
 })
 
 const Login = () => {
-  const router = useRouter()
+  const navigate = useNavigate()
+  const { login: setTokens } = useAuth()
   const { handleSubmit, errors, register, formState, setError } = useForm<
     FormValues
   >({
@@ -42,8 +43,8 @@ const Login = () => {
     async ({ server: _, ...credentials }: FormValues) => {
       try {
         const tokens = await login(credentials)
-        LocalStorageService.setTokens(tokens)
-        router.back()
+        setTokens(tokens)
+        navigate(routes.home)
       } catch (error) {
         setError(
           'server',
@@ -52,7 +53,7 @@ const Login = () => {
         )
       }
     },
-    [],
+    [navigate, setError, setTokens],
   )
 
   return (
@@ -96,7 +97,7 @@ const Login = () => {
               </FormErrorMessage>
             </FormControl>
             <FormControl>
-              <Link href="/forgot-password" passHref>
+              <Link to={routes.forgotPassword}>
                 <ChakraLink color="teal.500">Forgot Password</ChakraLink>
               </Link>
             </FormControl>
@@ -119,7 +120,7 @@ const Login = () => {
         >
           <Box as="p">
             New to udev?{' '}
-            <Link href="/register" passHref>
+            <Link to={routes.register}>
               <ChakraLink color="teal.500">Crete an account</ChakraLink>
             </Link>
             .

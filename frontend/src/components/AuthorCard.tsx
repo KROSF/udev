@@ -1,8 +1,10 @@
 import React from 'react'
-import { Flex, Button, Box, BoxProps } from '@chakra-ui/core'
+import { Flex, Button, Box, BoxProps, Link } from '@chakra-ui/core'
 import Gravatar from './Gravatar'
 import { User } from '../services/api'
 import moment from 'moment'
+import { routes } from '../router/routes'
+import { Link as RLink } from 'react-router-dom'
 
 const AuthorCard: React.FC<BoxProps & { user: User }> = ({
   user,
@@ -19,7 +21,9 @@ const AuthorCard: React.FC<BoxProps & { user: User }> = ({
           </Flex>
           <Flex flexDirection="column">
             <Flex as="span">{user.name}</Flex>
-            <Flex as="span">@{user.username}</Flex>
+            <RLink to={routes.user(user.username)}>
+              <Link as="span">@{user.username}</Link>
+            </RLink>
           </Flex>
         </Flex>
         {user.status && (

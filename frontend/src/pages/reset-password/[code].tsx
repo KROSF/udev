@@ -5,7 +5,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   FormErrorMessage,
   Button,
   FormHelperText,
@@ -13,8 +12,9 @@ import {
   AlertIcon,
 } from '@chakra-ui/core'
 import { resetPassword } from '../../services/api'
-import { useRouter } from 'next/router'
+import { useParams, useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/PasswordInput'
+import { routes } from '../../router/routes'
 
 type FormValues = {
   password: string
@@ -28,8 +28,9 @@ const schema = object().shape({
 })
 
 const ResetPassword = () => {
-  const router = useRouter()
-  const { code } = router.query
+  const { code } = useParams()
+  const navigate = useNavigate()
+
   const { handleSubmit, errors, register, formState, setError } = useForm<
     FormValues
   >({
@@ -41,7 +42,7 @@ const ResetPassword = () => {
       try {
         if (code && typeof code === 'string') {
           await resetPassword({ code, password })
-          router.push('/login')
+          navigate(routes.login)
         }
       } catch (error) {
         setError(
@@ -51,7 +52,7 @@ const ResetPassword = () => {
         )
       }
     },
-    [code],
+    [code, navigate, setError],
   )
 
   return (

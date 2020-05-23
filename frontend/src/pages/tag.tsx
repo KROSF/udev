@@ -1,14 +1,13 @@
 import React from 'react'
-import { useRouter } from 'next/router'
+import { useParams } from 'react-router-dom'
 import { Flex, Button } from '@chakra-ui/core'
-import { RootPost } from '../../services/api'
-import { useApi } from '../../hooks'
-import Loading from '../../components/Loading'
-import Card from '../../components/Card'
+import { RootPost } from '../services/api'
+import { useApi } from '../hooks'
+import Loading from '../components/Loading'
+import Card from '../components/Card'
 
 const Tag = () => {
-  const router = useRouter()
-  const { tag } = router.query
+  const { tag } = useParams()
 
   const { response, loading, error } = useApi<RootPost>({
     url: `/tags/${tag}/posts`,

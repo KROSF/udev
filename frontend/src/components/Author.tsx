@@ -1,17 +1,17 @@
 /** @jsx jsx */
-import React from 'react'
 import { Flex, Icon, Link } from '@chakra-ui/core'
 import Gravatar from './Gravatar'
 import moment from 'moment'
 import { User } from '../services/api'
 import { Github, Twitter } from '@zeit-ui/react-icons'
 import { css, jsx } from '@emotion/core'
+import { routes } from '../router/routes'
 
 const Author = ({ user, date }: { user: User; date?: string }) => {
   return (
     <Flex alignItems="center">
       <Link
-        href={`/users/${user.username}`}
+        href={routes.user(user.username)}
         alignItems="center"
         isTruncated={false}
         display="flex"

@@ -1,9 +1,10 @@
 import React from 'react'
 import { Flex, Button } from '@chakra-ui/core'
-import { useRouter } from 'next/router'
+import { useNavigate } from 'react-router-dom'
+import { routes } from '../router/routes'
 
 const ResetPassword = () => {
-  const router = useRouter()
+  const navigate = useNavigate()
   return (
     <Flex justifyContent="center" height="100%" marginTop={20}>
       <Flex
@@ -22,7 +23,7 @@ const ResetPassword = () => {
           mt={4}
           variantColor="teal"
           width="100%"
-          onClick={() => router.push('/login')}
+          onClick={() => navigate(routes.login)}
         >
           Return to log in
         </Button>

@@ -4,9 +4,9 @@ import { css, jsx } from '@emotion/core'
 import React, { useCallback, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { useOutsideClick } from '../hooks'
-import { LocalStorageService } from '../services/LocalStorageService'
-import { useRouter } from 'next/router'
-import { logOut } from '../services/api'
+import { useNavigate } from 'react-router-dom'
+import { routes } from '../router/routes'
+import { useAuth } from '../services/auth'
 
 interface DropdownItemProps {
   iconLeft?: React.ReactNode
@@ -57,7 +57,8 @@ const Dropdown: React.FC<{
   const dropdownRef = useRef(null)
   const [height, setHeight] = useState<number | null>(null)
   const { colorMode, toggleColorMode } = useColorMode()
-  const router = useRouter()
+  const navigate = useNavigate()
+  const { user, isUserLoggedIn, logout } = useAuth()
 
   useOutsideClick(dropdownRef, onOutsideClick)
   const colorModeStyles = {
@@ -95,14 +96,10 @@ const Dropdown: React.FC<{
     >
       <CSSTransition in unmountOnExit timeout={500} onEnter={onEnter}>
         <Box width="100%">
-          {LocalStorageService.user && (
-            <DropdownItem
-              onClick={() =>
-                router.push(`/users/${LocalStorageService.user?.username}`)
-              }
-            >
+          {user && (
+            <DropdownItem onClick={() => navigate(routes.user(user.username))}>
               <Flex flexDirection="column">
-                <Flex>@{LocalStorageService.user.username}</Flex>
+                <Flex>@{user.username}</Flex>
               </Flex>
             </DropdownItem>
           )}
@@ -114,17 +111,17 @@ const Dropdown: React.FC<{
           >
             Toggle {colorMode === 'light' ? 'Dark' : 'Light'}
           </DropdownItem>
-          {LocalStorageService.isUserLoggedIn ? (
+          {isUserLoggedIn ? (
             <DropdownItem
-              onClick={async () => {
-                await logOut()
-                router.push('/')
+              onClick={() => {
+                logout()
+                navigate(routes.home)
               }}
             >
               Sign Out
             </DropdownItem>
           ) : (
-            <DropdownItem onClick={() => router.push('/login')}>
+            <DropdownItem onClick={() => navigate(routes.login)}>
               Log In
             </DropdownItem>
           )}

@@ -1,13 +1,5 @@
-import React, { useState } from 'react'
-import {
-  useClipboard,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Input,
-  useToast,
-  Flex,
-} from '@chakra-ui/core'
+import React from 'react'
+import { useClipboard, IconButton, useToast, Flex } from '@chakra-ui/core'
 import { Copy } from '@zeit-ui/react-icons'
 
 const Copiable = ({ text }: { text: string }) => {

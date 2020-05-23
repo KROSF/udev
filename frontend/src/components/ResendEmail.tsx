@@ -1,17 +1,16 @@
 import React, { useCallback, useState } from 'react'
 import { Box, Link as ChakraLink } from '@chakra-ui/core'
-import { useRouter } from 'next/router'
+import { useParams } from 'react-router-dom'
 import { resendVerificationCode } from '../services/api'
 
 const ResendEmail = () => {
   const [status, setStatus] = useState<'initial' | 'sending' | 'sent'>(
     'initial',
   )
-  const router = useRouter()
-  const { email } = router.query
+  const { email } = useParams()
 
   const onClick = useCallback(async () => {
-    if (email && typeof email == 'string') {
+    if (email) {
       setStatus('sending')
       await resendVerificationCode({ email })
       setStatus('sent')
