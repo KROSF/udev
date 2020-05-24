@@ -22,9 +22,11 @@ use DateTime;
  * @property bool $status
  * @property ?User $created_by
  * @property ?User $updated_by
+ * @property Discussion[] $discussions
  * @method bool hasTags(array|int $tags)
  * @method bool setTags(array|int $tags)
  * @method bool addTags(array|int $tags)
+ * @method bool addDiscussions(array|int $discussions)
  * @method bool removeTags(array|int $tags)
  */
 class Post extends SerializableEntity {

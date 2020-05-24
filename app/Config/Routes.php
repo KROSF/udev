@@ -40,6 +40,9 @@ $routes->group('api', function (RouteCollection $routes) {
 
   $routes->post('posts/(:num)/like', 'PostController::like/$1', ['filter' => 'auth']);
 
+  $routes->post('posts/(:num)/discussions', 'DiscussionController::add/$1');
+  $routes->get('posts/(:num)/discussions', 'DiscussionController::view/$1', ['filter' => 'auth:get']);
+
   $routes->resource('users',[
     'only' => ['index', 'show','create', 'update', 'delete'],
     'controller' => 'UserController',
