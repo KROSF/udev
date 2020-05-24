@@ -8,20 +8,15 @@ use DateTime;
 /**
  * @property int $id
  * @property string $title
- * @property string $description
- * @property ?string $text
- * @property string $draft_text
- * @property User $user_id
+ * @property string $body
+ * @property User $user
+ * @property int $user_id
+ * @property int $comments
  * @property string $url
- * @property int $likes
- * @property int $score
- * @property bool $is_submitted
+ * @property string $cover_url
  * @property bool $is_draft
  * @property bool $is_published
  * @property ?DateTime $published_at
- * @property bool $status
- * @property ?User $created_by
- * @property ?User $updated_by
  * @property Discussion[] $discussions
  * @method bool hasTags(array|int $tags)
  * @method bool setTags(array|int $tags)
@@ -34,10 +29,9 @@ class Post extends SerializableEntity {
 
   protected $casts = [
     'id' => 'int',
-    'is_submitted' => 'boolean',
     'is_draft' => 'boolean',
     'is_published' => 'boolean',
-    'status' => 'boolean',
+    'comments' => 'int',
   ];
 
   public function updateLikes($user_id) {

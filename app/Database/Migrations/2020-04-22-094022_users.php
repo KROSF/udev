@@ -26,15 +26,6 @@ class Users extends Migration {
         'type' => 'VARCHAR',
         'constraint' => 255,
       ],
-      'avatar' => [
-        'type' => 'VARCHAR',
-        'constraint' => 255,
-        'null' => true
-      ],
-      'status' => [
-        'type' => 'BOOLEAN',
-        'default' => false
-      ],
       'verified' => [
         'type' => 'BOOLEAN',
         'default' => false
@@ -49,7 +40,12 @@ class Users extends Migration {
         'constraint' => 255,
         'null' => true
       ],
-      'stackoverflow_url' => [
+      'bio' => [
+        'type' => 'VARCHAR',
+        'constraint' => 255,
+        'null' => true
+      ],
+      'location' => [
         'type' => 'VARCHAR',
         'constraint' => 255,
         'null' => true

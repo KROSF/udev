@@ -18,7 +18,6 @@ class Credentials {
 }
 
 class AuthController extends ResourceController {
-
   protected UserModel $userModel;
 
   /**
@@ -150,7 +149,7 @@ class AuthController extends ResourceController {
     $tokens->accessToken = JWT::encode([
       'id' => $user->id,
       'iat' => $iat,
-      'exp' => $iat + MINUTE * 15,
+      'exp' => $iat + HOUR,
       'iss' => $iss,
     ], $this->authConfig->jwtKey, $this->authConfig->jwtAlgorithm);
 

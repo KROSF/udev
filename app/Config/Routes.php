@@ -36,7 +36,9 @@ $routes->setAutoRoute(true);
 $routes->group('api', function (RouteCollection $routes) {
   $routes->get('tags/(:alpha)/posts', 'TagController::posts/$1');
 
-  $routes->get('users/(:num)/posts', 'UserController::posts/$1');
+  $routes->get('users/(:any)/posts', 'UserController::posts/$1');
+
+  $routes->get('search', 'PostController::index');
 
   $routes->post('posts/(:num)/like', 'PostController::like/$1', ['filter' => 'auth']);
 

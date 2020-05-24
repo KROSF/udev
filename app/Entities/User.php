@@ -9,14 +9,13 @@ use CodeIgniter\I18n\Time;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property ?string $bio
+ * @property ?string $location
  * @property string $username
  * @property string $password
- * @property ?string $avatar
- * @property bool $status
  * @property bool $verified
  * @property ?string $github_username
  * @property ?string $twitter_username
- * @property ?string $stackoverflow_url
  * @property int $token_version
  * @property Time $created_at
  * @property Time $updated_at

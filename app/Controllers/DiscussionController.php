@@ -47,6 +47,8 @@ class DiscussionController extends ResourceController {
     }
 
     $post->addDiscussions($id);
+    $post->comments += 1;
+    $postsModel->save($post);
 
     return $this->respondNoContent();
   }

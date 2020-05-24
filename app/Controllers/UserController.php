@@ -22,7 +22,7 @@ class UserController extends ResourceController {
   }
 
   public function show($id = null) {
-    $user = $this->model->find($id);
+    $user = $this->model->findByUsernameOrId($id);
     if (is_null($user)) {
       return $this->failNotFound();
     }
@@ -83,13 +83,13 @@ class UserController extends ResourceController {
   }
 
   public function posts($user_id) {
-    $user = $this->model->find($user_id);
+    $user = $this->model->findByUsernameOrId($user_id);
     if (is_null($user)) {
       return $this->failNotFound();
     }
 
     $postsModel = new PostModel();
-    $user_posts = $postsModel->reindex(false)->with(["tags", "users"])->where('user_id', $user_id)->paginate();
+    $user_posts = $postsModel->reindex(false)->with(["tags","users"])->where('user_id', $user->id)->paginate();
 
     return $this->respond(['data' => $user_posts]);
   }

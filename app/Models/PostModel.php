@@ -22,12 +22,11 @@ class PostModel extends Model {
     'body',
     'user_id',
     'url',
-    'likes',
-    'comments',
     'is_draft',
     'is_published',
     'published_at',
-    'cover_url'
+    'cover_url',
+    'comments',
   ];
 
   protected $validationRules = [

@@ -63,4 +63,16 @@ class UserModel extends Model {
   public function findByEmail(string $email) {
     return $this->builder($this->table)->where('email',$email)->get(1)->getFirstRow($this->returnType);
   }
+
+  /**
+   *
+   * @param string $value
+   * @return User
+   * @throws ModelException
+   * @throws InvalidArgumentException
+   * @throws DatabaseException
+   */
+  public function findByUsernameOrId($value) {
+    return $this->where('username', $value)->orWhere('id', $value)->get(1)->getFirstRow($this->returnType);
+  }
 }

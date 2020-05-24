@@ -19,8 +19,15 @@ class PostController extends ResourceController {
   protected $format = 'json';
 
   public function index() {
+    $q = $this->request->getGet('q');
+    $qOnTitle = [];
+    $qOnBody = [];
+    if ($q) {
+      $qOnBody['body'] = $q;
+      $qOnTitle['title'] = $q;
+    }
     /** @var Post[] */
-    $posts = $this->model->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate();
+    $posts = $this->model->like($qOnTitle)->orLike($qOnBody)->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate();
 
     return $this->respond(['data' => $posts]);
   }
