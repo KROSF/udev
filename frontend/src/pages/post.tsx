@@ -9,6 +9,7 @@ import AuthorCard from '../components/AuthorCard'
 import PostTags from '../components/PostTags'
 import Author from '../components/Author'
 import NotFound from '../components/NotFound'
+import Discussion from '../components/Discussion'
 
 const getPostId = (post?: string) =>
   post ? post.substring(post.lastIndexOf('-') + 1) : ''
@@ -32,7 +33,12 @@ const PostByID = () => {
   return response ? (
     <Flex>
       <Flex flex={1} justifyContent="flex-end" paddingX="1.5rem"></Flex>
-      <Flex flex={2} flexDirection="column" overflow="scroll">
+      <Flex
+        flex={2}
+        flexDirection="column"
+        overflow="scroll"
+        marginBottom="5rem"
+      >
         <Flex flexDirection="column" borderWidth="1px">
           <Image src="/images/q19vviykh0oi1s5tkbqe.png" />
           <Flex overflow="scroll" flexDirection="column" padding="1.5rem">
@@ -49,7 +55,8 @@ const PostByID = () => {
               date={response.data.published_at}
             />
             <PostTags tags={response.data.tags} marginY="1.5rem" />
-            <MarkdownRender source={response.data.body} />
+            <MarkdownRender source={response.data.body} marginBottom="1.5rem" />
+            <Discussion post_id={response.data.id} />
           </Flex>
         </Flex>
       </Flex>
