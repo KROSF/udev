@@ -12,6 +12,8 @@ import {
   Register,
   ResetPassword,
   ResetPasswordWithCode,
+  Settings,
+  Search,
 } from '../pages'
 import { RouteProps } from 'react-router'
 import { useAuth } from '../services/auth'
@@ -33,6 +35,9 @@ export const routes = {
   tag: (name?: string) => (name ? (`/t/${name}` as '/t/{name}') : '/t/:tag'),
   user: (username?: string) =>
     username ? (`/u/${username}` as '/u/{username}') : '/u/:username',
+  settings: '/settings',
+  search: (q?: string) =>
+    q ? (`/search?q=${q}` as '/search?q={q}') : '/search',
 } as const
 
 const PrivateRoute = (props: RouteProps) => {
@@ -49,7 +54,9 @@ const RoutesComponent = () => {
   return (
     <Routes>
       <Route path={routes.home} element={<Home />} />
+      <Route path={routes.search()} element={<Search />} />
       <PrivateRoute path={routes.new} element={<New />} />
+      <PrivateRoute path={routes.settings} element={<Settings />} />
       <RedirectOnLogged path={routes.login} element={<Login />} />
       <Route path={routes.register} element={<Register />} />
       <Route path={routes.resetPassword} element={<ResetPassword />} />

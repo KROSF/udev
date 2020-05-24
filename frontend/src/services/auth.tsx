@@ -124,12 +124,11 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    ;(async () => {
-      if (TokenStore.userId) {
-        const res = await api.get<User>(`users/${TokenStore.userId}`)
+    if (!!TokenStore.userId && TokenStore.isUserLoggedIn) {
+      api.get<User>(`users/${TokenStore.userId}`).then((res) => {
         setState({ type: 'USER', payload: res.data })
-      }
-    })()
+      })
+    }
   }, [state.isUserLoggedIn])
 
   return (
@@ -155,5 +154,12 @@ export const useAuth = () => {
     })
   }, [setState])
 
-  return { login, logout, user, isUserLoggedIn }
+  const setUser = useCallback(
+    (user: User) => {
+      setState({ type: 'USER', payload: user })
+    },
+    [setState],
+  )
+
+  return { login, logout, user, isUserLoggedIn, setUser }
 }

@@ -37,6 +37,8 @@ export type NewPostDTO = {
   tags: string
   body: string
   publish: boolean
+  cover_url?: string
+  images?: string[]
 }
 
 export const newPost = async (data: NewPostDTO) => {
@@ -114,5 +116,49 @@ export const posts = async () => {
 
 export const post = async (id: string) => {
   const res = await api.get<Post>(`posts/${id}`)
+  return res.data
+}
+
+export const addDiscussion = async ({
+  id,
+  ...data
+}: {
+  id: string | number
+  content: string
+  discussion_id?: string | number | null
+}) => {
+  const res = await api.post(`posts/${id}/discussions`, data)
+  return res.data
+}
+
+export interface RootDiscussions {
+  data: Discussion[]
+}
+
+export interface Discussion {
+  children: Discussion[]
+  content: string
+  created_at: string
+  discussion_id: string | null
+  id: string
+  updated_at: string
+  user: User
+  user_id: string
+}
+
+export type UpdateUserPayoad = {
+  name: string
+  username: string
+  location?: string
+  github_username?: string
+  twitter_username?: string
+  bio?: string
+}
+
+export const updateUser = async (
+  id: string | number,
+  data: UpdateUserPayoad,
+) => {
+  const res = await api.put<User>(`users/${id}`, data)
   return res.data
 }
