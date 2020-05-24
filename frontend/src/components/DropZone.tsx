@@ -8,7 +8,7 @@ export interface FilePreview extends File {
 
 export const Thumb: React.FC<{ file: FilePreview }> = ({ file }) => {
   return (
-    <Flex>
+    <Flex height="120px">
       <Image src={file.preview} />
     </Flex>
   )

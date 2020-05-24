@@ -2,14 +2,17 @@ import React, { useState } from 'react'
 import { Flex, Heading, Button, CloseButton, FlexProps } from '@chakra-ui/core'
 import DropZone from './DropZone'
 import { UseDisclosureReturn } from '@chakra-ui/core/dist/useDisclosure'
-import { sendFiles } from '../services/api'
+import { sendFiles, NewPostDTO } from '../services/api'
 import Copiable from './Copiable'
+import { FormContextValues } from 'react-hook-form'
 
 const MAX_SIZE_25MB = 26_214_400
 
 const ImagesForm: React.FC<
-  Pick<UseDisclosureReturn, 'onClose'> & FlexProps
-> = ({ onClose, ...props }) => {
+  Pick<UseDisclosureReturn, 'onClose'> &
+    FlexProps &
+    Pick<FormContextValues<NewPostDTO>, 'setValue'>
+> = ({ onClose, setValue, ...props }) => {
   const [bodyFiles, setBodyFiles] = useState<string[]>([])
   return (
     <Flex flexDirection="column" alignItems="center" {...props}>
@@ -26,7 +29,8 @@ const ImagesForm: React.FC<
           marginBottom={5}
           width="100%"
           onSendFiles={async (files) => {
-            await sendFiles(files)
+            const [cover] = await sendFiles(files)
+            setValue('cover', cover)
           }}
           dropZoneOptions={{
             accept: 'image/*',
@@ -38,7 +42,13 @@ const ImagesForm: React.FC<
           Body Images
         </Heading>
         {bodyFiles.length > 0 ? (
-          <Flex flexDirection="column" width="100%">
+          <Flex
+            flexDirection="column"
+            width="100%"
+            maxHeight="calc(63px*4)"
+            overflowY="scroll"
+            paddingBottom="1rem"
+          >
             {bodyFiles.map((file) => (
               <Copiable text={`![](${file})`} />
             ))}
@@ -49,6 +59,7 @@ const ImagesForm: React.FC<
             onSendFiles={async (files) => {
               try {
                 const res = await sendFiles(files)
+                setValue('images', res)
                 setBodyFiles(res)
               } catch {}
             }}
