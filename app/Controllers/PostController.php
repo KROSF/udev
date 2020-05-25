@@ -27,9 +27,9 @@ class PostController extends ResourceController {
       $qOnTitle['title'] = $q;
     }
     /** @var Post[] */
-    $posts = $this->model->like($qOnTitle)->orLike($qOnBody)->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate();
+    $posts = $this->model->like($qOnTitle)->orLike($qOnBody)->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate(1);
 
-    return $this->respond(['data' => $posts]);
+    return $this->respond(array_merge($this->model->pager->getDetails(), ['data' => $posts, 'hasMore' => $this->model->pager->hasMore()]));
   }
 
   public function show($id = null) {
