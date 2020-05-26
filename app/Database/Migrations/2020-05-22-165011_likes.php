@@ -18,8 +18,8 @@ class Likes extends Migration {
     ]);
     $this->forge->addUniqueKey(['user_id','post_id']);
     $this->forge->addUniqueKey(['post_id','user_id']);
-    $this->forge->addForeignKey('user_id', 'users', 'id');
-    $this->forge->addForeignKey('post_id', 'posts', 'id');
+    $this->forge->addForeignKey('user_id', 'users', 'id', '', 'CASCADE');
+    $this->forge->addForeignKey('post_id', 'posts', 'id','', 'CASCADE');
     $this->forge->createTable('likes');
   }
 

@@ -63,7 +63,10 @@ class DiscussionController extends ResourceController {
       return $this->failNotFound();
     }
 
-    return $this->respond(['data' => $this->nested($post->discussions)]);
+    if (!is_null($post->discussions)) {
+      return $this->respond(['data' => $this->nested($post->discussions)]);
+    }
+    return $this->respond(['data' => []]);
   }
 
   /**
