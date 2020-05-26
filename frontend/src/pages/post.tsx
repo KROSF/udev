@@ -10,6 +10,7 @@ import PostTags from '../components/PostTags'
 import Author from '../components/Author'
 import NotFound from '../components/NotFound'
 import Discussion from '../components/Discussion'
+import Like from '../components/Like'
 
 const getPostId = (post?: string) =>
   post ? post.substring(post.lastIndexOf('-') + 1) : ''
@@ -32,7 +33,11 @@ const PostByID = () => {
 
   return response ? (
     <Flex>
-      <Flex flex={1} justifyContent="flex-end" paddingX="1.5rem"></Flex>
+      <Flex flex={1} justifyContent="flex-end" paddingX="1.5rem">
+        <Flex>
+          <Like likes={response.data.likes} postId={getPostId(post)} />
+        </Flex>
+      </Flex>
       <Flex
         flex={2}
         flexDirection="column"
@@ -40,7 +45,7 @@ const PostByID = () => {
         marginBottom="5rem"
       >
         <Flex flexDirection="column" borderWidth="1px">
-          <Image src="/images/q19vviykh0oi1s5tkbqe.png" />
+          {response.data.cover_url && <Image src={response.data.cover_url} />}
           <Flex overflow="scroll" flexDirection="column" padding="1.5rem">
             <Heading
               as="h1"

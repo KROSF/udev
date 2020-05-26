@@ -61,18 +61,30 @@ export const sendFiles = async (files: File[]) => {
 }
 
 export interface RootPost {
+  uri: Uri
+  hasMore: boolean
+  total: number
+  perPage: number
+  pageCount: number
+  pageSelector: string
+  currentPage: number
+  next: any
+  previous: any
+  segment: number
   data: Post[]
 }
+
+export interface Uri {}
 
 export interface Post {
   id: number
   title: string
   body: string
   user_id: string
-  url: string
-  cover_url: string
   likes: Like[]
-  comments: string
+  url: string
+  cover_url: string | null
+  comments: number
   is_draft: boolean
   is_published: boolean
   published_at: string
@@ -95,18 +107,17 @@ export interface Tag {
 }
 
 export interface User {
-  id: number
-  name: string
-  email: string
-  username: string
-  avatar: any
-  status: boolean
-  verified: boolean
-  github_username: any
-  twitter_username: any
-  stackoverflow_url: any
+  bio: string | null
   created_at: string
+  email: string
+  github_username: string | null
+  id: number
+  location: string | null
+  name: string
+  twitter_username: string | null
   updated_at: string
+  username: string
+  verified: boolean
 }
 
 export const posts = async () => {
@@ -147,12 +158,12 @@ export interface Discussion {
 }
 
 export type UpdateUserPayoad = {
-  name: string
-  username: string
-  location?: string
-  github_username?: string
-  twitter_username?: string
-  bio?: string
+  name?: string
+  username?: string
+  location: string | null
+  github_username: string | null
+  twitter_username: string | null
+  bio: string | null
 }
 
 export const updateUser = async (
@@ -160,5 +171,14 @@ export const updateUser = async (
   data: UpdateUserPayoad,
 ) => {
   const res = await api.put<User>(`users/${id}`, data)
+  return res.data
+}
+
+export const deletePost = async (id: string | number) => {
+  await api.delete(`posts/${id}`)
+}
+
+export const likePost = async (id: string | number) => {
+  const res = await api.post(`posts/${id}/like`)
   return res.data
 }

@@ -40,13 +40,7 @@ const Tag = () => {
           <Flex flex={1} justifyContent="flex-end" paddingRight="1.5rem"></Flex>
           <Flex flex={2} flexDirection="column">
             {response.data.data.map((post, index) => {
-              return (
-                <Card
-                  first={index === 0}
-                  post={post}
-                  key={post.title + index}
-                />
-              )
+              return <Card first={false} post={post} key={post.title + index} />
             })}
           </Flex>
           <Flex flex={1} paddingLeft="1.5rem"></Flex>

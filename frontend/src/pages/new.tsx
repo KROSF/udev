@@ -13,6 +13,9 @@ import { useForm } from 'react-hook-form'
 import { object, string, array } from 'yup'
 import { newPost, NewPostDTO } from '../services/api'
 import ImagesForm from '../components/ImagesForm'
+import { useNavigate } from 'react-router'
+import { routes } from '../router/routes'
+import { useAuth } from '../services/auth'
 
 const schema = object().shape({
   title: string().required(),
@@ -28,11 +31,15 @@ const NewPost = () => {
   })
 
   const { isOpen, onClose, onOpen } = useDisclosure(false)
+  const navigate = useNavigate()
+  const { user } = useAuth()
 
   const onSubmit = useCallback(
     (publish) => async (data: NewPostDTO) => {
       try {
+        console.log(data)
         await newPost({ ...data, publish })
+        navigate(routes.user(user?.username))
       } catch (error) {}
     },
     [],
@@ -68,9 +75,10 @@ const NewPost = () => {
             onClose={onClose}
             height="calc(95vh - 265px)"
             display={isOpen ? undefined : 'none'}
-            setValue={setValue}
+            setValue={(data) => setValue([data])}
           />
           <Flex display={isOpen ? 'none' : undefined}>
+            <input hidden ref={register} name="cover_url" />
             <FormControl isInvalid={!!errors.title} marginBottom="15px">
               <Input name="title" placeholder="Title" ref={register} />
               <FormErrorMessage>

@@ -15,6 +15,7 @@ import { useAuth } from '../services/auth'
 import { UpdateUserPayoad, updateUser } from '../services/api'
 import { object, string } from 'yup'
 import { routes } from '../router/routes'
+import { useNavigate } from 'react-router'
 
 const schema = object().shape({
   name: string().required().trim(),
@@ -22,10 +23,23 @@ const schema = object().shape({
   github_username: string().trim(),
   twitter_username: string().trim(),
   location: string().trim(),
+  bio: string(),
 })
+
+const removeUnchangedValues = (
+  current: UpdateUserPayoad,
+  previous: UpdateUserPayoad,
+) =>
+  (Object.keys(current) as (keyof UpdateUserPayoad)[]).reduce((prev, key) => {
+    if (current[key] !== previous[key]) {
+      prev[key] = current[key] as any
+    }
+    return prev
+  }, {} as UpdateUserPayoad)
 
 const Settings = () => {
   const { user, setUser } = useAuth()
+  const navigate = useNavigate()
   const user_id = user!.id
 
   const { errors, register, setError, handleSubmit } = useForm<
@@ -37,14 +51,17 @@ const Settings = () => {
       username: user?.username,
       github_username: user?.github_username,
       twitter_username: user?.twitter_username,
+      bio: user?.bio,
+      location: user?.location,
     },
   })
 
   const onSubmit = useCallback(
     (data: UpdateUserPayoad) => {
-      updateUser(user_id, data)
+      updateUser(user_id, removeUnchangedValues(data, user!))
         .then((res) => {
           setUser(res)
+          navigate(routes.user(user?.username))
         })
         .catch((err) => {
           Object.entries<string>(err.response.data.messages.errors).forEach(
@@ -54,7 +71,7 @@ const Settings = () => {
           )
         })
     },
-    [setUser, setError, user_id],
+    [setUser, setError, user_id, user, navigate],
   )
 
   return (

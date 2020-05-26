@@ -26,9 +26,9 @@ const AuthorCard: React.FC<BoxProps & { user: User }> = ({
             </RLink>
           </Flex>
         </Flex>
-        {user.status && (
+        {user.bio && (
           <Flex as="p" marginBottom={3}>
-            {user.status}
+            {user.bio}
           </Flex>
         )}
         <Flex justifyContent="center">

@@ -33,7 +33,7 @@ export const routes = {
   resetPasswordWithCode: '/reset-password/:code',
   post: '/:post',
   tag: (name?: string) => (name ? (`/t/${name}` as '/t/{name}') : '/t/:tag'),
-  user: (username?: string) =>
+  user: (username?: string | number | null) =>
     username ? (`/u/${username}` as '/u/{username}') : '/u/:username',
   settings: '/settings',
   search: (q?: string) =>

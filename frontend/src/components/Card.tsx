@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Box, Flex, Image, Link } from '@chakra-ui/core'
+import { Box, Flex, Image, Link, Button } from '@chakra-ui/core'
 import React from 'react'
 import Gravatar from './Gravatar'
 import { Link as RLink } from 'react-router-dom'
@@ -10,15 +10,19 @@ import { routes } from '../router/routes'
 export interface CardProps {
   post: Post
   first: boolean
+  canDelete?: boolean
+  onDelete?: () => void
 }
 
 const Card: React.FC<CardProps> = ({
   post: { url, title, tags, user, likes, comments, cover_url },
   first,
+  canDelete = false,
+  onDelete = () => {},
 }) => {
   return (
     <Box borderWidth="1px" rounded="lg" width="100%" marginBottom={3}>
-      {first && cover_url && <Image src={cover_url} alt="cover" />}
+      {first && cover_url && <Image src={cover_url} alt="cover" width="100%" />}
       <Box p={6} borderTopWidth={first ? '1px' : undefined}>
         <Link
           href={url}
@@ -71,7 +75,7 @@ const Card: React.FC<CardProps> = ({
               {likes.length}
             </Box>
           </Link>
-          <Link href={url} display="flex">
+          <Link href={url} display="flex" marginRight={2}>
             <Image
               src="/images/comments-bubble.png"
               alt="chat"
@@ -82,6 +86,13 @@ const Card: React.FC<CardProps> = ({
               {comments}
             </Box>
           </Link>
+          {canDelete && (
+            <Flex justifyContent="flex-end" flexGrow={1}>
+              <Button onClick={onDelete} size="xs" variantColor="teal">
+                DELETE
+              </Button>
+            </Flex>
+          )}
         </Flex>
       </Box>
     </Box>

@@ -26,12 +26,12 @@ const Author = ({ user, date }: { user: User; date?: string }) => {
           {user.name}
         </Flex>
       </Link>
-      {!user.twitter_username && (
+      {user.twitter_username && (
         <Link href="https://github.com/krosf" marginRight={2} isExternal>
           <Icon as={Github} color="gray.500" />
         </Link>
       )}
-      {!user.github_username && (
+      {user.github_username && (
         <Link href="" marginRight={2}>
           <Icon as={Twitter} color="gray.500" />
         </Link>
