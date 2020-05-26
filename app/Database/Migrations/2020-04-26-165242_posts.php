@@ -19,6 +19,10 @@ class Posts extends Migration {
         'type' => 'INT',
         'constraint' => 9,
       ],
+      'likes' => [
+        'type' => 'INT',
+        'constraint' => 9,
+      ],
       'url' => [
         'type' => 'VARCHAR',
         'constraint' => 255,

@@ -89,7 +89,7 @@ class UserController extends ResourceController {
     }
 
     $postsModel = new PostModel();
-    $user_posts = $postsModel->reindex(false)->with(["tags","users"])->where('user_id', $user->id)->paginate();
+    $user_posts = $postsModel->orderBy('created_at', 'DESC')->reindex(false)->with(["tags","users", "likes"])->where('user_id', $user->id)->paginate();
 
     return $this->respond(['data' => $user_posts]);
   }

@@ -88,7 +88,7 @@ class TagController extends ResourceController {
     }
     $postsModel = new PostModel();
     /** @var Post[] */
-    $tag_posts = $postsModel->reindex(false)->with(["tags", "users"])->paginate();
+    $tag_posts = $postsModel->reindex(false)->with(["tags", "users","likes"])->paginate();
     $posts_with_tag = [];
     foreach ($tag_posts as $post) {
       if ($post->hasTags($tag->id)) {

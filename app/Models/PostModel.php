@@ -27,6 +27,7 @@ class PostModel extends Model {
     'published_at',
     'cover_url',
     'comments',
+    'likes'
   ];
 
   protected $validationRules = [

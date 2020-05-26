@@ -18,8 +18,8 @@ class PostsTags extends Migration {
     ]);
     $this->forge->addUniqueKey(['post_id', 'tag_id']);
     $this->forge->addUniqueKey(['tag_id','post_id']);
-    $this->forge->addForeignKey('post_id','posts','id');
-    $this->forge->addForeignKey('tag_id','tags','id');
+    $this->forge->addForeignKey('post_id','posts','id', '', 'CASCADE');
+    $this->forge->addForeignKey('tag_id','tags','id', '', 'CASCADE');
     $this->forge->createTable('posts_tags');
   }
 

@@ -27,13 +27,13 @@ class PostController extends ResourceController {
       $qOnTitle['title'] = $q;
     }
     /** @var Post[] */
-    $posts = $this->model->like($qOnTitle)->orLike($qOnBody)->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate(1);
+    $posts = $this->model->like($qOnTitle)->orLike($qOnBody)->orderBy('created_at', 'DESC')->reindex(false)->with(["tags", "users", "likes"])->paginate(5);
 
     return $this->respond(array_merge($this->model->pager->getDetails(), ['data' => $posts, 'hasMore' => $this->model->pager->hasMore()]));
   }
 
   public function show($id = null) {
-    $post = $this->model->reindex(false)->with(["tags", "users"])->find($id);
+    $post = $this->model->reindex(false)->with(["tags", "users","likes"])->find($id);
     if (is_null($post)) {
       return $this->failNotFound();
     }
@@ -72,7 +72,7 @@ class PostController extends ResourceController {
       return $this->failServerError();
     }
 
-    $tags = explode(',', $data->tags);
+    $tags = array_map('trim', explode(',', $data->tags));
 
     $tagModel = new TagModel();
 
@@ -139,6 +139,8 @@ class PostController extends ResourceController {
     $post->updateLikes($user->id);
     $this->model->save($post);
 
-    return $this->respondNoContent();
+    $likes = $this->model->select('likes')->find($id);
+
+    return $this->respond(['likes' => (int) $likes->likes]);
   }
 }

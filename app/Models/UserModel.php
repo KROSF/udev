@@ -25,10 +25,10 @@ class UserModel extends Model {
     'email',
     'username',
     'password',
-    'avatar',
+    'bio',
+    'location',
     'github_username',
     'twitter_username',
-    'stackoverflow_url',
     'token_version',
     'verified',
   ];
