@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from 'react'
 import { Box, Link as ChakraLink } from '@chakra-ui/core'
-import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { resendVerificationCode } from '../services/api'
 
 const ResendEmail = () => {
   const [status, setStatus] = useState<'initial' | 'sending' | 'sent'>(
     'initial',
   )
-  const { email } = useParams()
+  const location = useLocation()
+  const email = new URLSearchParams(location.search).get('email') || ''
 
   const onClick = useCallback(async () => {
     if (email) {
